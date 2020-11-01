@@ -1,3 +1,7 @@
+@section('title')
+    Admin - Connexion
+@endsection
+
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">

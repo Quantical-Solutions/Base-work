@@ -1,3 +1,7 @@
+@section('title')
+    Admin - Mot de passe oublié
+@endsection
+
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
