@@ -1,0 +1,9 @@
+:root {
+    --colorWhite: #F1F1F1;
+    --colorYellow: #F8C333;
+    --colorGrey: #CCCCCC;
+    --colorDarkGrey: #3C3C3B;
+    --colorGreen: #035729;
+    --backgroundColorForm: rgba(204, 204, 204, 0.3);
+    --backgroundColor: #000;
+}

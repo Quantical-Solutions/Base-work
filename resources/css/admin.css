@@ -1,0 +1,51 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url("./root.css");
+@import url("./reset.css");
+@import url("./fonts.css");
+@import url("./responsive.css");
+@import url("./responsive-adds-admin.css");
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--backgroundColor);
+    color: var(--colorWhite);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.x-center {
+    justify-content: center;
+}
+
+.y-center {
+    align-items: center;
+}
+
+.align {
+    text-align: center;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.padd-around {
+    padding: 20px;
+}

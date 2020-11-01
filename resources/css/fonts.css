@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'gothamblack';
+    src: url('/fonts/Gotham/gotham-black-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothambold';
+    src: url('/fonts/Gotham/gotham-bold-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothambookitalic';
+    src: url('/fonts/Gotham/gotham-bookitalic-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-bookitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothamlight';
+    src: url('/fonts/Gotham/gotham-light-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothamthin';
+    src: url('/fonts/Gotham/gotham-thin-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-thin-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothamthinitalic';
+    src: url('/fonts/Gotham/gotham-thinitalic-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-thinitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothamultraitalic';
+    src: url('/fonts/Gotham/gotham-ultraitalic-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-ultraitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothamxlight';
+    src: url('/fonts/Gotham/gotham-xlight-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-xlight-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothamxlightitalic';
+    src: url('/fonts/Gotham/gotham-xlightitalic-webfont.woff2') format('woff2'),
+    url('/fonts/Gotham/gotham-xlightitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
