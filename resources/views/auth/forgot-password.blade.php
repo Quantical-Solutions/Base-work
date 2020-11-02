@@ -1,38 +1,48 @@
+@extends('layouts.guest')
+
 @section('title')
     Admin - Mot de passe oublié
 @endsection
 
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@section('content')
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </div>
+    <section id="authSection">
 
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div id="statusConn" class="sup-cont-conn">
                 {{ session('status') }}
             </div>
         @endif
 
-        <x-jet-validation-errors class="mb-4" />
-
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <div class="block">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Réinitialisation</h4>
+                <p class="card-category">Veuillez saisir votre email</p>
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-jet-button>
+            <div class="card-body">
+                <form method="post" action="{{ route('password.email') }}">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            @error('email')
+                            <div class="errorConn">
+                                <p>Email non reconnu...</p>
+                            </div>
+                            @enderror
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Votre Email</label>
+                                <input type="email" name="email" autocomplete="email" class="form-control" required>
+                            </div>
+                            <a class="row" href="{{ route('login') }}">
+                                Retour à la page de connexion
+                            </a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right">Réinitialiser</button>
+                    <div class="clearfix"></div>
+                </form>
             </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+        </div>
+    </section>
+
+@endsection

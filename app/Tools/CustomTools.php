@@ -104,3 +104,37 @@ if (!function_exists('conjonction')) {
         return $conjonction;
     }
 }
+
+if (!function_exists('compileJsFiles')) {
+    
+    function compileJsFiles()
+    {
+        $scripts = '<script  type="text/javascript" src="/js/material/core/popper.min.js"></script>
+        <script  type="text/javascript" src="/js/material/core/bootstrap-material-design.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/moment.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/sweetalert2.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/jquery.validate.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/jquery.bootstrap-wizard.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/bootstrap-selectpicker.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/bootstrap-datetimepicker.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/jquery.dataTables.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/bootstrap-tagsinput.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/jasny-bootstrap.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/fullcalendar.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/jquery-jvectormap.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/nouislider.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/arrive.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/chartist.min.js"></script>
+        <script  type="text/javascript" src="/js/material/plugins/bootstrap-notify.js"></script>';
+
+        return $scripts;
+    }
+}
+
+if (!function_exists('geoloc')) {
+
+    function geoloc()
+    {
+        return 'cooool';
+    }
+}

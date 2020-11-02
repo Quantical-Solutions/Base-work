@@ -19496,9 +19496,9 @@ function xhr(controller, json) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/gefr1116/new/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /home/gefr1116/new/resources/css/app.css */"./resources/css/app.css");
-module.exports = __webpack_require__(/*! /home/gefr1116/new/resources/css/admin.css */"./resources/css/admin.css");
+__webpack_require__(/*! /home/gefr1116/new-qs/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /home/gefr1116/new-qs/resources/css/app.css */"./resources/css/app.css");
+module.exports = __webpack_require__(/*! /home/gefr1116/new-qs/resources/css/admin.css */"./resources/css/admin.css");
 
 
 /***/ })

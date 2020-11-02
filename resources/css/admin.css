@@ -1,11 +1,13 @@
-@import 'tailwindcss/base';
+/*@import 'tailwindcss/base';
 @import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss/utilities';*/
 @import url("./root.css");
 @import url("./reset.css");
 @import url("./fonts.css");
+@import url("./animate.css");
 @import url("./responsive.css");
 @import url("./responsive-adds-admin.css");
+@import url("./material-dashboard.css");
 
 body {
     margin: 0;
@@ -13,6 +15,8 @@ body {
     box-sizing: border-box;
     background-color: var(--backgroundColor);
     color: var(--colorWhite);
+    height: 100vh;
+    display: flex;
 }
 
 .row {
@@ -48,4 +52,12 @@ body {
 
 .padd-around {
     padding: 20px;
+}
+
+.errorConn p {
+    color: firebrick;
+}
+
+#authSection a.row {
+    padding: 0 15px;
 }

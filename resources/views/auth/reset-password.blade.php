@@ -1,40 +1,72 @@
+@extends('layouts.guest')
+
 @section('title')
     Admin - Mot de passe oublié
 @endsection
 
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@section('content')
 
-        <x-jet-validation-errors class="mb-4" />
+    <section id="authSection">
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
-
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-            <div class="block">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+        @if (session('status'))
+            <div id="statusConn" class="sup-cont-conn">
+                {{ session('status') }}
             </div>
+        @endif
 
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Connexion</h4>
+                <p class="card-category">Veuillez saisir vos identifiants de connexion</p>
             </div>
+            <div class="card-body">
+                <form method="post" action="{{ route('login') }}">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            @error('email')
+                            <div class="errorConn">
+                                <p>Email incorrect</p>
+                            </div>
+                            @enderror
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Identifiant</label>
+                                <input type="email" name="email" id="email" autocomplete="email" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @error('password')
+                            <div class="errorConn">
+                                <p>Mot de passe incorrect</p>
+                            </div>
+                            @enderror
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Mot de passe</label>
+                                <input type="password" name="password" id="password" autocomplete="current-password" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @error('password_confirmation')
+                            <div class="errorConn">
+                                <p>La confirmation ne correspond pas</p>
+                            </div>
+                            @enderror
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Confirmation</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="current-password" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="reset" class="btn btn-primary pull-right">Effacer</button>
+                    <button type="submit" class="btn btn-primary pull-right">Confirmer</button>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </section>
 
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
-                    {{ __('Reset Password') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+@endsection
