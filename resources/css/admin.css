@@ -61,3 +61,11 @@ body {
 #authSection a.row {
     padding: 0 15px;
 }
+
+.check-align {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    cursor: pointer;
+    width: max-content;
+}

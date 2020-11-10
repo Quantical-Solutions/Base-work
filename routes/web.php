@@ -20,7 +20,7 @@ Route::group(array('domain' => config('app.url')), function(){
         ->name('home');
 
     //About us
-    Route::get('/about-us', 'App\Http\Controllers\AboutUsController@index')
+    Route::get('/qs-concept', 'App\Http\Controllers\AboutUsController@index')
         ->name('about-us');
 
     //Products

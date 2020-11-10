@@ -31,7 +31,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Identifiant</label>
-                                <input type="email" name="email" id="email" autocomplete="email" class="form-control" required>
+                                <input type="email" name="email" id="email" autocomplete="off" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Mot de passe</label>
-                                <input type="password" name="password" id="password" autocomplete="current-password" class="form-control" required>
+                                <input type="password" name="password" id="password" autocomplete="off" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Confirmation</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="current-password" class="form-control" required>
+                                <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="off" class="form-control" required>
                             </div>
                         </div>
                     </div>

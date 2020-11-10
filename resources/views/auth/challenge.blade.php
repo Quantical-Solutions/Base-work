@@ -31,7 +31,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Code de vérification</label>
-                                <input type="text" name="code" autocomplete="code" class="form-control" required>
+                                <input type="text" name="code" autocomplete="of" class="form-control" required>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,8 @@
 {
     "private": true,
     "scripts": {
+        "maintenance": "php artisan down --render=\"errors::maintenance\" --redirect=/ --secret=\"1989-1979-2020-maintenance-qs\"",
+        "hello": "php artisan up",
         "dev": "npm run development",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "npm run development -- --watch",

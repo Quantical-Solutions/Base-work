@@ -31,7 +31,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Votre Email</label>
-                                <input type="email" name="email" autocomplete="email" class="form-control" required>
+                                <input type="email" name="email" autocomplete="off" class="form-control" required>
                             </div>
                             <a class="row" href="{{ route('login') }}">
                                 Retour à la page de connexion

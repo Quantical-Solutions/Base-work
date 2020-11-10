@@ -34,7 +34,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Identifiant</label>
-                                <input type="email" name="email" autocomplete="email" class="form-control" required>
+                                <input type="email" name="email" autocomplete="off" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Mot de passe</label>
-                                <input type="password" name="password" autocomplete="current-password" class="form-control" required>
+                                <input type="password" name="password" autocomplete="off" class="form-control" required>
                             </div>
                             @if (Route::has('password.request'))
                                 <a class="row" href="{{ route('password.request') }}">
@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label for="remember_me" class="flex items-center">
+                                <label for="remember_me" class="flex items-center check-align">
                                     <input id="remember_me" type="checkbox" class="form-checkbox" name="remember">
                                     <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
                                 </label>
