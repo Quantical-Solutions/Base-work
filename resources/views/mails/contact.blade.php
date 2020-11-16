@@ -17,6 +17,6 @@
         <br>
         Nous vous répondrons dans les plus brefs délais.
     </p>
-    <p>L'&Eacute;quipe <b>PARTAJ</b></p>
+    <p>L'&Eacute;quipe <b>{{ config('app.name') }}</b></p>
 @endif
 </body>

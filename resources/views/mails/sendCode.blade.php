@@ -11,5 +11,5 @@
     &Agrave; l'issue des 5 minutes, si vous n'avez toujours pas saisi ce code, vous serez rediriger vers la page de connexion pour régénérer le jeton de sécurité.
 </p>
 <br>
-<p>L'&Eacute;quipe <b>PARTAJ</b></p>
+<p>L'&Eacute;quipe <b>{{ config('app.name') }}</b></p>
 </body>

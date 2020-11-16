@@ -1,9 +1,9 @@
 @extends('admin.template')
 
 @section('title')
-    Admin - Scrud
+    {!! $title !!}
 @endsection
 
 @section('content')
-    Scrud
+    {!! $scrud !!}
 @endsection

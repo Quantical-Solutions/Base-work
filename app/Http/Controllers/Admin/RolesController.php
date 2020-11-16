@@ -14,11 +14,11 @@ class RolesController extends Controller
 
     public function index()
     {
-        return view('admin/roles');
+        return view('admin/tools/scrud', ['title' => 'Rôles']);
     }
 
-    public function mode($mode, $id)
+    public function mode($mode, $id = false)
     {
-        return view('admin/tools/edit-read');
+        return view('admin/tools/edit-read', ['title' => 'Rôle']);
     }
 }

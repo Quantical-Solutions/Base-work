@@ -38,7 +38,9 @@
   },
   "autoload": {
     "files": [
-      "app/Tools/CustomTools.php"
+      "app/Tools/CustomTools.php",
+      "app/Tools/ScrudBuilder.php",
+      "app/Tools/ColumsTypeDispatcher.php"
     ],
     "psr-4": {
       "App\\": "app/",

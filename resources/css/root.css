@@ -2,8 +2,11 @@
     --colorWhite: #F1F1F1;
     --colorYellow: #F8C333;
     --colorGrey: #CCCCCC;
+    --colorAdmin: #3C4858;
     --colorDarkGrey: #3C3C3B;
-    --colorGreen: #035729;
+    --colorGreen: #2d862d;
+    --colorRed: #b32d00;
+    --colorGold: #DEB672;
     --backgroundColorForm: rgba(204, 204, 204, 0.3);
     --backgroundColor: #000;
 }

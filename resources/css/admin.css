@@ -14,9 +14,10 @@ body {
     padding: 0;
     box-sizing: border-box;
     background-color: var(--backgroundColor);
-    color: var(--colorWhite);
+    color: var(--colorAdmin);
     height: 100vh;
     display: flex;
+    flex-direction: column;
 }
 
 .row {
@@ -68,4 +69,196 @@ body {
     align-items: flex-start;
     cursor: pointer;
     width: max-content;
+}
+
+.main-panel>.navbar .searchInputs {
+    color: #FFF!important;
+}
+
+.thSearch {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.searchScrud {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 37px;
+    height: 25px;
+    padding: 3px 6px 3px 10px;
+    background-color: #3C3C3C;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.searchScrud_svg {
+    width: 25px;
+    height: 15px;
+}
+
+.searchScrud_svg path {
+    fill: #FFF;
+}
+
+.thSearch input {
+    padding: 3px 5px;
+    width: calc(100% - 37px);
+    font-size: 14px;
+    height: 25px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    min-width: 100px;
+}
+
+.noScrud {
+    padding: 0 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.thSpans {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: max-content;
+    text-align: center;
+    min-width: 100%;
+}
+
+.table th {
+    vertical-align: top!important;
+}
+
+::placeholder {
+    font-style: italic;
+}
+
+.scrudBoolOk, .scrudBoolNok {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scrudBoolOk svg, .scrudBoolNok svg {
+    width: 20px;
+}
+
+.scrudBoolOk svg path {
+    fill: var(--colorGreen);
+}
+
+.scrudBoolNok svg path {
+    fill: var(--colorRed);
+}
+
+.tdJson {
+    position: relative;
+}
+
+.jsonCounter {
+    position: absolute;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: var(--colorGold);
+    padding: 0 5px;
+    border-radius: 50px;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #FFF;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 5px;
+    right: 5px;
+}
+
+.tdImages img {
+    height: 70px;
+    border: 3px solid #FFF;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.scrudActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.scrudActionLinks {
+    width: 25px;
+    margin: 5px 10px;
+    cursor: pointer;
+}
+
+.actionIcons {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0);
+    transform-origin: 50% 50%;
+    transform: scale(1);
+    border-radius: 100px;
+    transition: all linear 0.15s;
+}
+
+.actionIcons:hover {
+    transform: scale(1.2);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.actionIcons_svg {
+    width: 25px;
+    height: 25px;
+}
+
+.actionIcons_svg path {
+    fill: var(--colorGold);
+}
+
+.modal {
+    position: fixed;
+    z-index: 30;
+    top: 50px;
+    visibility: hidden;
+    opacity: 0;
+    right: 20px;
+    background-color: var(--colorGreen);
+    padding: 20px;
+    color: var(--colorWhite);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 5px solid #FFF;
+    border-radius: 5px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    transition: all linear 0.2s;
+}
+
+.modal p {
+    margin: 0;
+}
+
+.showModal {
+    visibility: visible!important;
+    opacity: 1!important;
+}
+
+button.infos {
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
 }

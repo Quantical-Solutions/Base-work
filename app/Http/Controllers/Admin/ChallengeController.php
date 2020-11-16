@@ -15,12 +15,21 @@ class ChallengeController extends Controller
 {
     public function index()
     {
-        $this->create2FC();
-        $id = Auth::id();
-        $user = User::select('name', 'email', 'email_code')->where('id', $id)->first();
-        $email = $user->email;
-        $this->send2FCEmail($email, $user);
-        return view('auth/challenge');
+        if (session('2FC') === null) {
+
+            $this->create2FC();
+            $id = Auth::id();
+            $user = User::select('name', 'email', 'email_code')->where('id', $id)->first();
+            $email = $user->email;
+            $this->send2FCEmail($email, $user);
+            $response = view('auth/challenge');
+
+        } else {
+
+            $response = redirect()->route('dashboard');
+        }
+
+        return $response;
     }
 
     public function verified(Request $request)
@@ -37,7 +46,7 @@ class ChallengeController extends Controller
                 $id = Auth::id();
                 User::where('id', $id)->update(['phone_code' => null, 'email_code' => null]);
                 session(['2FC' => 'ok']);
-                return redirect()->route('Accueil');
+                return redirect()->route('dashboard');
 
             } else {
 

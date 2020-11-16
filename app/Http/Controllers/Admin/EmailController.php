@@ -14,11 +14,11 @@ class EmailController extends Controller
 
     public function index()
     {
-        return view('admin/emails');
+        return view('admin/tools/scrud', ['title' => 'QS Emails']);
     }
 
-    public function mode($mode, $id)
+    public function mode($mode, $id = false)
     {
-        return view('admin/tools/edit-read');
+        return view('admin/tools/edit-read', ['title' => 'QS Email']);
     }
 }

@@ -19349,17 +19349,17 @@ var md = {
     disabled_collapse_init: 0
   },
   checkSidebarImage: function checkSidebarImage() {
-    $sidebar = $('.sidebar');
-    image_src = $sidebar.data('image');
+    var $sidebar = $('.sidebar');
+    var image_src = $sidebar.data('image');
 
     if (image_src !== undefined) {
-      sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>';
+      var sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>';
       $sidebar.append(sidebar_container);
     }
   },
   showNotification: function showNotification(from, align) {
-    type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary'];
-    color = Math.floor(Math.random() * 6 + 1);
+    var type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary'];
+    var color = Math.floor(Math.random() * 6 + 1);
     $.notify({
       icon: "add_alert",
       message: "Welcome to <b>Material Dashboard Pro</b> - a beautiful admin panel for every web developer."
@@ -19439,15 +19439,22 @@ var md = {
     });
   },
   initSidebarsCheck: function initSidebarsCheck() {
-    if ($(window).width() <= 991) {
+    if ($(window).width() < 992) {
+      var $sidebar = $('.sidebar');
+
       if ($sidebar.length != 0) {
         md.initRightMenu();
       }
+    } else {
+      var $sidebar_wrapper = $('.sidebar-wrapper');
+      $sidebar_wrapper.find('.navbar-form').remove();
+      $sidebar_wrapper.find('.nav-mobile-menu').remove();
+      mobile_menu_initialized = false;
     }
   },
   checkFullPageBackgroundImage: function checkFullPageBackgroundImage() {
-    $page = $('.full-page');
-    image_src = $page.data('image');
+    var $page = $('.full-page');
+    var image_src = $page.data('image');
 
     if (image_src !== undefined) {
       image_container = '<div class="full-page-background" style="background-image: url(' + image_src + ') "/>';
@@ -19511,11 +19518,11 @@ var md = {
   initDashboardPageCharts: function initDashboardPageCharts(date) {
     if ($('#newCustomersChart').length != 0 || $('#activateCardChart').length != 0 || $('#activateAppChart').length != 0 || $('#estateChart').length != 0 || $('#orderChart').length != 0 || $('#productionChart').length != 0 || $('#deliveryChart').length != 0 || $('#distriChart').length != 0) {
       /* ----------==========     New Customers Chart initialization    ==========---------- */
-      dataNewCustomersChart = {
+      var dataNewCustomersChart = {
         labels: this.labelsChart,
         series: [this.getStatsFromJson(date, 'newCustomersChart').coord]
       };
-      optionsNewCustomersChart = {
+      var optionsNewCustomersChart = {
         lineSmooth: Chartist.Interpolation.cardinal({
           tension: 0
         }),
@@ -19532,11 +19539,11 @@ var md = {
       md.startAnimationForLineChart(newCustomersChart);
       /* ----------==========     Activation Card Chart initialization    ==========---------- */
 
-      dataActivateCardChart = {
+      var dataActivateCardChart = {
         labels: this.labelsChart,
         series: [this.getStatsFromJson(date, 'activateCardChart').coord]
       };
-      optionsActivateCardChart = {
+      var optionsActivateCardChart = {
         axisX: {
           showGrid: false
         },
@@ -19590,11 +19597,11 @@ var md = {
       md.startAnimationForBarChart(activateAppChart);
       /* ----------==========     Estates Chart initialization    ==========---------- */
 
-      dataEstateChart = {
+      var dataEstateChart = {
         labels: this.labelsChart,
         series: [this.getStatsFromJson(date, 'estateChart').coord]
       };
-      optionsEstateChart = {
+      var optionsEstateChart = {
         lineSmooth: Chartist.Interpolation.cardinal({
           tension: 0
         }),
@@ -19611,11 +19618,11 @@ var md = {
       md.startAnimationForLineChart(estateChart);
       /* ----------==========     Orders Chart initialization    ==========---------- */
 
-      dataOrderChart = {
+      var dataOrderChart = {
         labels: this.labelsChart,
         series: [this.getStatsFromJson(date, 'orderChart').coord]
       };
-      optionsOrderChart = {
+      var optionsOrderChart = {
         lineSmooth: Chartist.Interpolation.cardinal({
           tension: 0
         }),
@@ -19663,11 +19670,11 @@ var md = {
     /* ----------==========     Delivery Chart initialization    ==========---------- */
 
 
-    dataDeliveryChart = {
+    var dataDeliveryChart = {
       labels: this.labelsChart,
       series: [this.getStatsFromJson(date, 'deliveryChart').coord]
     };
-    optionsDeliveryChart = {
+    var optionsDeliveryChart = {
       axisX: {
         showGrid: false
       },
@@ -19756,22 +19763,23 @@ var md = {
     }
   }, 17),
   initRightMenu: debounce(function () {
-    $sidebar_wrapper = $('.sidebar-wrapper');
+    var $sidebar_wrapper = $('.sidebar-wrapper');
 
     if (!mobile_menu_initialized) {
-      $navbar = $('nav').find('.navbar-collapse').children('.navbar-nav');
-      mobile_menu_content = '';
-      nav_content = $navbar.html();
+      var $navbar = $('nav').find('.navbar-collapse').children('.navbar-nav');
+      var mobile_menu_content = '';
+      var nav_content = $navbar.html();
       nav_content = '<ul class="nav navbar-nav nav-mobile-menu">' + nav_content + '</ul>';
-      navbar_form = $('nav').find('.navbar-form').get(0).outerHTML;
-      $sidebar_nav = $sidebar_wrapper.find(' > .nav'); // insert the navbar form before the sidebar list
+      var navbar_form = $('nav').find('.navbar-form').get(0).outerHTML;
+      var $sidebar_nav = $sidebar_wrapper.find(' > .nav'); // insert the navbar form before the sidebar list
 
-      $nav_content = $(nav_content);
-      $navbar_form = $(navbar_form);
+      var $nav_content = $(nav_content);
+      var $navbar_form = $(navbar_form);
       $nav_content.insertBefore($sidebar_nav);
       $navbar_form.insertBefore($nav_content);
       $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").click(function (event) {
         event.stopPropagation();
+        initSearch();
       }); // simulate resize so all the charts/maps will be redrawn
 
       window.dispatchEvent(new Event('resize'));
@@ -19783,6 +19791,8 @@ var md = {
         $sidebar_wrapper.find('.nav-mobile-menu').remove();
         mobile_menu_initialized = false;
       }
+
+      initSearch();
     }
   }, 200),
   startAnimationForLineChart: function startAnimationForLineChart(chart) {
@@ -19985,14 +19995,7 @@ var isClosed = false,
     isClosedSetts = false;
 displayErrorConn();
 timeStamper();
-initSearchInputs();
-
-if (document.querySelector('#statsPage')) {
-  initFirstLoad('stats');
-} else {
-  initFirstLoad();
-}
-
+initFirstLoad();
 var Menu = {
   el: {
     ham: $('.menu'),
@@ -20157,10 +20160,6 @@ function getPage(elmt, page) {
           } else {
             document.querySelector('#pageReplacer').innerHTML = 'Erreur de chargement de la page...';
             document.querySelector('#mainLoader').classList.remove('displayLoader');
-            selectSearch();
-            initMediaSize();
-            recordForm('informations', 'recordSettings', 'settings');
-            recordForm('modeles', 'recordModeles', 'modeles_emails');
           }
         });
       });
@@ -20169,24 +20168,8 @@ function getPage(elmt, page) {
 }
 
 function initFirstLoad() {
-  get_servers_details();
-  add_listeners_ftp();
-  selectSearch();
-  recordForm('informations', 'recordSettings', 'settings');
-  recordForm('modeles', 'recordModeles', 'modeles_emails');
-  igniteFrames();
   setCKEditor();
   initMediaSize();
-  /*(function() {
-      isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
-       if (isWindows) {
-          // if we are on windows OS we activate the perfectScrollbar function
-          $('main').perfectScrollbar();
-           $('html').addClass('perfect-scrollbar-on');
-      } else {
-          $('html').addClass('perfect-scrollbar-off');
-      }
-  })();*/
 
   if (document.querySelector('#modeleTemplate')) {
     var option = document.querySelectorAll('#modéleTemplate option');
@@ -20209,271 +20192,6 @@ function launchGraph(elmt) {
   }
 
   md.initDashboardPageCharts(date);
-}
-
-function triggerPage(page) {
-  var onglet = document.querySelector('#' + page);
-  onglet.click();
-}
-
-function createPDF(elmt) {
-  document.querySelector('#mainLoader').classList.add('displayLoader');
-  var data = elmt.dataset.json;
-  var name = elmt.dataset.name;
-  var rap = elmt.dataset.type;
-  var color = '28,56,89';
-  var url = '/admin/request';
-  var json = {
-    'xhr2': 'createPDF',
-    'infos': data,
-    'nom': name,
-    'rap': rap,
-    'color': color
-  };
-  $(document).ready(function () {
-    $.post(url, json, function (data, status) {
-      if (status == 'success') {
-        document.querySelector('#mainLoader').classList.remove('displayLoader');
-        elmt.previousElementSibling.click();
-      } else {
-        document.querySelector('#mainLoader').classList.remove('displayLoader');
-        errorConsoleLog();
-      }
-    });
-  });
-}
-
-function createXML(elmt) {
-  document.querySelector('#mainLoader').classList.add('displayLoader');
-  var data = elmt.dataset.json;
-  var name = elmt.dataset.name;
-  var type = elmt.dataset.type.replace(' & ', ' ET ');
-  var url = '/admin/request';
-  var json = {
-    'xhr2': 'createXML',
-    'infos': data,
-    'nom': name,
-    'type': type
-  };
-  $(document).ready(function () {
-    $.post(url, json, function (data, status) {
-      if (status == 'success') {
-        document.querySelector('#mainLoader').classList.remove('displayLoader');
-        elmt.previousElementSibling.click();
-      } else {
-        document.querySelector('#mainLoader').classList.remove('displayLoader');
-        errorConsoleLog();
-      }
-    });
-  });
-}
-
-function errorConsoleLog() {
-  console.log("%cUne erreur AJAX est survenue !", "color:red;");
-}
-
-function scrudAction(id, mode, table) {
-  var html = '',
-      button = '<div id="closeModal" onclick="closeModal()"><svg id="closeModal_svg"' + ' viewBox="0 0 32 32"><path d="M31.708 25.708c-0-0-0-0-0-0l-9.708-9.708 9.708-9.708c0-0 0-0 0-0 0.105-0.105' + ' 0.18-0.227 0.229-0.357 0.133-0.356' + ' 0.057-0.771-0.229-1.057l-4.586-4.586c-0.286-0.286-0.702-0.361-1.057-0.229-0.13 0.048-0.252 0.124-0.357' + ' 0.228 0 0-0 0-0 0l-9.708' + ' 9.708-9.708-9.708c-0-0-0-0-0-0-0.105-0.104-0.227-0.18-0.357-0.228-0.356-0.133-0.771-0.057-1.057' + ' 0.229l-4.586 4.586c-0.286 0.286-0.361 0.702-0.229 1.057 0.049 0.13 0.124 0.252 0.229 0.357 0 0 0 0 0' + ' 0l9.708 9.708-9.708 9.708c-0 0-0 0-0 0-0.104 0.105-0.18 0.227-0.229 0.357-0.133 0.355-0.057 0.771 0.229' + ' 1.057l4.586 4.586c0.286 0.286 0.702 0.361 1.057 0.229 0.13-0.049 0.252-0.124 0.357-0.229 0-0 0-0' + ' 0-0l9.708-9.708 9.708 9.708c0 0 0 0 0 0 0.105 0.105 0.227 0.18 0.357 0.229 0.356 0.133 0.771 0.057' + ' 1.057-0.229l4.586-4.586c0.286-0.286 0.362-0.702' + ' 0.229-1.057-0.049-0.13-0.124-0.252-0.229-0.357z"></path></svg></div>';
-
-  switch (mode) {
-    case 'see':
-      html = '<div id="seeCont" class="htmlCont card"><div class="card-header card-header-primary"><h4 class="card-title">Voir' + ' les données de l\'entrée <i>n°' + id + '</i></h4>' + button + '</div><div id="ajaxFields"' + ' class="card-body"></div></div>';
-      break;
-
-    case 'edit':
-      html = '<form method="post" enctype="multipart/form-data" id="editCont" class="htmlCont card"><input' + ' type="hidden" name="mode" value="' + mode + '"><input type="hidden" name="table" value="' + table + '"><div class="card-header card-header-primary"><h4 class="card-title">Modifier les données de l\'entrée <i>n°' + id + '</i></h4>' + button + '</div><div id="ajaxFields" class="card-body"></div><button class="cardBtns btn btn-primary pull-right" type="button" onclick="actionRow(' + id + ', \'' + table + '\', \'edit\')">Modifier</button><div class="clearfix"></div><button style="display: none;" type="submit">To Form</button></form>';
-      break;
-
-    case 'delete':
-      html = '<div id="deleteCont" class="htmlCont card"><div class="card-header' + ' card-header-primary"><h4 class="card-title">Confirmation de suppression des données de' + ' l\'entrée <i>n°' + id + '</i></h4>' + button + '</div><div class="card-body"><button' + ' class="cardBtns btn btn-danger pull-right" type="button" onclick="actionRow(' + id + ', \'' + table + '\',' + ' \'delete\')">Supprimer</button><div class="clearfix"></div></div></div>';
-      break;
-  }
-
-  createModal(html, mode, id, table);
-}
-
-function addRow(id, table) {
-  var html = '',
-      button = '<div id="closeModal" onclick="closeModal()"><svg id="closeModal_svg"' + ' viewBox="0 0 32 32"><path d="M31.708 25.708c-0-0-0-0-0-0l-9.708-9.708 9.708-9.708c0-0 0-0 0-0 0.105-0.105' + ' 0.18-0.227 0.229-0.357 0.133-0.356' + ' 0.057-0.771-0.229-1.057l-4.586-4.586c-0.286-0.286-0.702-0.361-1.057-0.229-0.13 0.048-0.252 0.124-0.357' + ' 0.228 0 0-0 0-0 0l-9.708' + ' 9.708-9.708-9.708c-0-0-0-0-0-0-0.105-0.104-0.227-0.18-0.357-0.228-0.356-0.133-0.771-0.057-1.057' + ' 0.229l-4.586 4.586c-0.286 0.286-0.361 0.702-0.229 1.057 0.049 0.13 0.124 0.252 0.229 0.357 0 0 0 0 0' + ' 0l9.708 9.708-9.708 9.708c-0 0-0 0-0 0-0.104 0.105-0.18 0.227-0.229 0.357-0.133 0.355-0.057 0.771 0.229' + ' 1.057l4.586 4.586c0.286 0.286 0.702 0.361 1.057 0.229 0.13-0.049 0.252-0.124 0.357-0.229 0-0 0-0' + ' 0-0l9.708-9.708 9.708 9.708c0 0 0 0 0 0 0.105 0.105 0.227 0.18 0.357 0.229 0.356 0.133 0.771 0.057' + ' 1.057-0.229l4.586-4.586c0.286-0.286 0.362-0.702' + ' 0.229-1.057-0.049-0.13-0.124-0.252-0.229-0.357z"></path></svg></div>';
-  html += '<form method="post" enctype="multipart/form-data" id="addCont" class="htmlCont card"><input' + ' type="hidden" name="mode" value="record"><input type="hidden" name="table" value="' + table + '"><div' + ' class="card-header card-header-primary"><h4 class="card-title">Ajouter une entrée</h4>' + button + '</div><div' + ' id="ajaxFields" class="card-body"></div><button' + ' type="button" onclick="actionRow(false, \'' + table + '\', \'record\')" class="cardBtns btn btn-primary' + ' pull-right">Enregistrer</button><div class="clearfix"></div><button' + ' style="display: none;" type="submit">To Form</button></form>';
-  createModal(html, 'add', id, table);
-}
-
-function createModal(data, mode, id, table) {
-  document.querySelector('#mainLoader').classList.add('displayLoader');
-  var div = document.createElement('DIV');
-  div.setAttribute('id', 'modale');
-  div.innerHTML = '<div class="innerModale"><div id="modalContent"' + ' class="col-md-12">' + data + '</div></div>';
-  document.querySelector('main').appendChild(div);
-
-  if (mode == 'delete') {
-    div.classList.add('supressModal');
-    div.classList.add('displayModal');
-    document.querySelector('#mainLoader').classList.remove('displayLoader');
-  } else {
-    $(document).ready(function () {
-      $.post('/admin/request', {
-        'xhr2': 'buildModal',
-        'id': id,
-        'mode': mode,
-        'table': table
-      }, function (data, status) {
-        if (status == 'success') {
-          document.querySelector('#ajaxFields').innerHTML = data;
-          setTimeout(function () {
-            div.classList.add('displayModal');
-            document.querySelector('#mainLoader').classList.remove('displayLoader');
-            recordForm('modalContent form', 'scrud_action', table);
-          }, 50);
-          setCKEditor();
-        } else {
-          document.querySelector('#ajaxFields').innerHTML = 'Une erreur s\'est produite...';
-          setTimeout(function () {
-            div.classList.add('displayModal');
-            document.querySelector('#mainLoader').classList.remove('displayLoader');
-          }, 50);
-        }
-      });
-    });
-  }
-}
-
-function beCrypt(elmt) {
-  var next = elmt.nextElementSibling;
-  $(document).ready(function () {
-    $.post('/admin/request', {
-      'xhr2': 'beCrypt',
-      'mdp': elmt.value,
-      'old': next.dataset.old
-    }, function (data, status) {
-      if (status == 'success') {
-        next.value = data;
-      } else {
-        next.value = 'Une erreur est survenue...';
-      }
-    });
-  });
-}
-
-function getSection(elmt, mode) {
-  var nb = parseInt(elmt.parentElement.querySelector('nbr').innerHTML),
-      sections = document.querySelectorAll('.sectionsDiv');
-
-  switch (mode) {
-    case 'less':
-      if (nb > 1) {
-        nb -= 1;
-
-        for (var i = 0; i < sections.length; i++) {
-          sections[i].style.display = 'none';
-        }
-
-        for (var i = 0; i < sections.length; i++) {
-          if (sections[i].children[0].textContent == 'Section ' + nb) {
-            sections[i].style.display = 'flex';
-          }
-        }
-
-        elmt.parentElement.querySelector('nbr').innerHTML = nb;
-      }
-
-      break;
-
-    case 'more':
-      if (nb < 6) {
-        nb += 1;
-
-        for (var i = 0; i < sections.length; i++) {
-          sections[i].style.display = 'none';
-        }
-
-        for (var i = 0; i < sections.length; i++) {
-          if (sections[i].children[0].textContent == 'Section ' + nb) {
-            sections[i].style.display = 'flex';
-          }
-        }
-
-        elmt.parentElement.querySelector('nbr').innerHTML = nb;
-      }
-
-      break;
-  }
-}
-
-function closeModal() {
-  var div = document.querySelector('#modale');
-  div.classList.remove('displayModal');
-  div.classList.remove('supressModal');
-  setTimeout(function () {
-    div.parentElement.removeChild(div);
-  }, 250);
-}
-
-function actionRow(id, table, mode) {
-  if (mode != 'delete') {
-    document.querySelector('#modalContent form button[type="submit"]').click();
-  } else if (mode == 'delete') {
-    document.querySelector('#mainLoader').classList.add('displayLoader');
-    var url = '/admin/request';
-    var json = {
-      'xhr2': 'scrud_action',
-      'id': id,
-      'table': table,
-      'mode': mode
-    };
-    $(document).ready(function () {
-      $.post(url, json, function (data, status) {
-        if (status == 'success') {
-          document.querySelector('#mainLoader').classList.remove('displayLoader');
-          document.querySelectorAll('.hoverSpan')[0].click();
-        } else {
-          document.querySelector('#mainLoader').classList.remove('displayLoader');
-          document.querySelector('#closeModal').click();
-        }
-      });
-    });
-  }
-}
-
-function search(elmt) {
-  var tags = elmt.previousElementSibling.value;
-
-  if (tags != '') {
-    $(document).ready(function () {
-      $.post('/admin/request', {
-        'xhr2': 'recherche',
-        'tags': tags
-      }, function (data, status) {
-        if (status == 'success') {
-          document.querySelector('#pageReplacer').innerHTML = data;
-          document.querySelector('#mainLoader').classList.remove('displayLoader');
-          elmt.previousElementSibling.value = '';
-          initSearchInputs();
-        } else {
-          document.querySelector('#pageReplacer').innerHTML = 'Erreur de chargement de la page...';
-          document.querySelector('#mainLoader').classList.remove('displayLoader');
-          elmt.previousElementSibling.value = '';
-          initSearchInputs();
-        }
-      });
-    });
-  }
-}
-
-function initSearchInputs() {
-  var inputs = document.querySelectorAll('.searchInputs');
-
-  if (inputs) {
-    for (var i = 0; i < inputs.length; i++) {
-      inputs[i].addEventListener("keyup", function (event) {
-        if (event.keyCode === 13) {
-          event.preventDefault();
-          this.nextElementSibling.click();
-        }
-      });
-    }
-  }
 }
 
 function modeGraph(elmt, str) {
@@ -20538,389 +20256,6 @@ function modeGraph(elmt, str) {
       });
     });
   }
-}
-
-function getSearchResultPage(elmt, onglet, id) {
-  var ajax = document.querySelectorAll('.ajax');
-
-  for (var i = 0; i < ajax.length; i++) {
-    if (ajax[i].getAttribute('onclick') == 'getPage(this, \'' + onglet + '\')') {
-      ajax[i].click();
-      document.body.dataset.search = id;
-      break;
-    }
-  }
-}
-
-function selectSearch() {
-  var set = document.body.dataset.search;
-
-  if (set != '' && parseInt(set, 16) != 'NaN') {
-    var td = document.querySelectorAll('table td'),
-        trs = document.querySelectorAll('.pagination');
-
-    for (var i = 0; i < trs.length; i++) {
-      trs[i].classList.remove('displayTr');
-    }
-
-    for (var i = 0; i < td.length; i++) {
-      if (td[i].parentElement.children[0].innerHTML == set) {
-        var tr = td[i].parentElement,
-            pos = tr.offsetTop,
-            pagi = tr.dataset.pagi,
-            options = document.querySelectorAll('.paginer option');
-
-        for (var j = 0; j < options.length; j++) {
-          if (options[j].value == pagi) {
-            options[j].selected = true;
-          }
-        }
-
-        for (var j = 0; j < trs.length; j++) {
-          if (trs[j].dataset.pagi == pagi) {
-            trs[j].classList.add('displayTr');
-          }
-        }
-
-        tr.classList.add('selTr');
-        tr.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest"
-        });
-        setTimeout(function () {
-          tr.classList.remove('selTr');
-        }, 3000);
-        document.body.dataset.search = '';
-        break;
-      }
-    }
-  }
-}
-
-function getPagi(elmt) {
-  var td = document.querySelectorAll('.scrudPagination'),
-      page = elmt.value,
-      pagiTop = document.querySelector('#mainPaginer'),
-      pagiBottom = document.querySelector('#bottomPaginer');
-
-  if (pagiTop && pagiBottom) {
-    if (elmt.parentElement.id == 'mainPaginer') {
-      var options = pagiBottom.querySelectorAll('option');
-
-      for (var i = 0; i < options.length; i++) {
-        if (options[i].value == page) {
-          options[i].selected = true;
-        }
-      }
-    } else if (elmt.parentElement.id == 'bottomPaginer') {
-      var options = pagiTop.querySelectorAll('option');
-
-      for (var i = 0; i < options.length; i++) {
-        if (options[i].value == page) {
-          options[i].selected = true;
-        }
-      }
-    }
-  }
-
-  for (var i = 0; i < td.length; i++) {
-    if (parseInt(td[i].dataset.pagi) != page) {
-      td[i].classList.remove('displayTr');
-    } else {
-      if (!td[i].classList.contains('displayTr')) {
-        td[i].classList.add('displayTr');
-      }
-    }
-  }
-}
-
-function displayImportDetails(elmt) {
-  var infos = JSON.parse(elmt.dataset.details),
-      div = document.querySelector('#importFtpSection'),
-      nom = div.querySelector('input[name="last_name"]'),
-      usage = div.querySelector('input[name="usual_name"]'),
-      prenom = div.querySelector('input[name="first_name"]'),
-      date = div.querySelector('input[name="birth_date"]'),
-      sexe = div.querySelector('input[name="sexe"]'),
-      email = div.querySelector('input[name="email"]');
-  nom.value = infos.LASTNAME;
-  nom.disabled = false;
-  usage.value = infos.USUALNAME;
-  usage.disabled = false;
-  prenom.value = infos.FIRSTNAME;
-  prenom.disabled = false;
-  sexe.value = infos.SEXE == 'M' ? 'Homme' : 'Femme';
-  sexe.disabled = false;
-  date.value = infos.BIRTHDATE.slice(0, 4) + '-' + infos.BIRTHDATE.slice(4, 6) + '-' + infos.BIRTHDATE.slice(6);
-  date.disabled = false;
-  email.value = infos.EMAIL;
-  email.disabled = false;
-}
-
-function eraseImportFields(elmt) {
-  var inputs = elmt.parentElement.querySelectorAll('.inputsImports');
-
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].value = '';
-    inputs[i].disabled = true;
-  }
-}
-
-function importNewClient(elmt) {
-  var inputs = document.querySelectorAll('.toImport'),
-      ok = 0;
-
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].classList.remove('error');
-  }
-
-  for (var i = 0; i < inputs.length; i++) {
-    if ((inputs[i].value == '' || inputs[i].value == 'xEx') && inputs[i].name != 'usual_name') {
-      inputs[i].classList.add('error');
-    }
-  }
-
-  var error = document.querySelectorAll('.error');
-
-  if (error) {
-    ok = error.length;
-  }
-
-  if (ok == 0) {
-    var div = document.querySelector('#importManuelSection'),
-        nom = div.querySelector('input[name="last_name"]').value,
-        usage = div.querySelector('input[name="usual_name"]').value,
-        prenom = div.querySelector('input[name="first_name"]').value,
-        date = div.querySelector('input[name="birth_date"]').value,
-        sexe = div.querySelector('select[name="sexe"]').value,
-        email = div.querySelector('input[name="email"]').value,
-        json = {
-      'xhr2': 'recordImport',
-      'nom': nom,
-      'usage': usage,
-      'prenom': prenom,
-      'sexe': sexe,
-      'birth': date,
-      'mail': email
-    };
-    $(document).ready(function () {
-      $.post('/admin/request', json, function (data, status) {
-        if (status == 'success') {
-          for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-          }
-
-          div.querySelector('select[name="sexe"]').children[0].selected = true;
-          document.querySelector('#importManuelSection p').innerHTML += '<span style="color: #339933; margin-left: 10px;">Import enregistré</span>';
-          setTimeout(function () {
-            document.querySelector('#importManuelSection p').innerHTML = 'Saisir les informations d\'un nouveau client.';
-          }, 3000);
-        } else {
-          document.querySelector('#importManuelSection p').innerHTML += '<span style="color: #960018; margin-left: 10px;">Une erreur est survenue...</span>';
-          setTimeout(function () {
-            document.querySelector('#importManuelSection p').innerHTML = 'Saisir les informations d\'un nouveau client.';
-          }, 3000);
-        }
-      });
-    });
-  }
-}
-
-function previewLogo(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      input.parentElement.style.backgroundImage = 'url("' + e.target.result + '")';
-    };
-
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-function recordForm(id, controller, page) {
-  var form = document.querySelector('#' + id);
-
-  if (form) {
-    form.addEventListener('submit', function (ev) {
-      var inputs = document.querySelectorAll('.toImport'),
-          ok = 0;
-
-      for (var i = 0; i < inputs.length; i++) {
-        inputs[i].classList.remove('error');
-      }
-
-      for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == '' && inputs[i].type != 'file') {
-          inputs[i].classList.add('error');
-        }
-      }
-
-      var error = document.querySelectorAll('.error');
-
-      if (error) {
-        ok = error.length;
-      }
-
-      var data = new FormData(document.querySelector('#' + id));
-      data.append("xhr2", controller);
-
-      if (ok == 0) {
-        document.querySelector('#mainLoader').classList.add('displayLoader');
-        var request = new XMLHttpRequest();
-        request.open("POST", "/admin/request", true);
-
-        request.onload = function (oEvent) {
-          if (request.status == 200) {
-            document.querySelector('#mainLoader').classList.remove('displayLoader');
-            var ajax = document.querySelectorAll('.ajax');
-
-            for (var i = 0; i < ajax.length; i++) {
-              if (ajax[i].getAttribute('onclick') == 'getPage(this, \'' + page + '\')') {
-                ajax[i].click();
-                break;
-              }
-            }
-          } else {
-            document.querySelector('#mainLoader').classList.remove('displayLoader');
-
-            if (document.querySelector('#messgeAjax')) {
-              document.querySelector('#messgeAjax').style.display = 'block';
-            }
-          }
-        };
-
-        request.send(data);
-      }
-
-      ev.preventDefault();
-    }, false);
-  }
-}
-
-function launchBackup() {
-  $(document).ready(function () {
-    $.post('cron?2fE56Dcg10OOp=c54DfG2Rty235', {
-      'xhr2': 'manualBackup'
-    }, function (data, status) {
-      if (status == 'success') {
-        var ajax = document.querySelectorAll('.ajax');
-
-        for (var i = 0; i < ajax.length; i++) {
-          if (ajax[i].getAttribute('onclick') == 'getPage(this, \'backups\')') {
-            ajax[i].click();
-            break;
-          }
-        }
-      } else {
-        document.querySelector('#errorBackup').style.display = 'block';
-      }
-    });
-  });
-}
-
-function eraseBackup(file) {
-  var json = {
-    'xhr2': 'eraserBackup',
-    'file': file
-  },
-      url = '/admin/request';
-  $(document).ready(function () {
-    $.post(url, json, function (data, status) {
-      if (status == 'success') {
-        var ajax = document.querySelectorAll('.ajax');
-
-        for (var i = 0; i < ajax.length; i++) {
-          if (ajax[i].getAttribute('onclick') == 'getPage(this, \'backups\')') {
-            ajax[i].click();
-            break;
-          }
-        }
-      } else {
-        document.querySelector('#errorBackup').style.display = 'block';
-      }
-    });
-  });
-}
-
-function igniteFrames() {
-  var overlays = document.querySelectorAll('.overlayModele');
-
-  if (overlays && overlays[0]) {
-    setTimeout(function () {
-      overlays[0].click();
-    }, 1500);
-  }
-
-  for (var i = 0; i < overlays.length; i++) {
-    dragElement(overlays[i].querySelector('text span'), i);
-  }
-}
-
-function displayOverlays(elmt, index) {
-  var overlays = document.querySelectorAll('.overlayModele');
-
-  if (!elmt.classList.contains('displayScroller')) {
-    for (var i = 0; i < overlays.length; i++) {
-      overlays[i].classList.remove('displayScroller');
-      overlays[i].querySelector('text span').style.top = '0px';
-    }
-
-    var _long = elmt.offsetHeight / 5 * 4;
-
-    elmt.classList.add('displayScroller');
-    elmt.querySelector('text').style.height = document.querySelectorAll('iframe')[index].contentWindow.screen.height > 0 ? document.querySelectorAll('iframe')[index].contentWindow.screen.height * 100 / _long * 2.5 + 'px' : '0px';
-  } else {
-    for (var i = 0; i < overlays.length; i++) {
-      overlays[i].classList.remove('displayScroller');
-      overlays[i].querySelector('text span').style.top = '0px';
-    }
-  }
-}
-
-function dragElement(elmt, index) {
-  var pos1 = 0,
-      pos2 = 0;
-  elmt.onmousedown = dragMouseDown;
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    pos2 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    pos1 = pos2 - e.clientY;
-    pos2 = e.clientY;
-    elmt.classList.add('selCursor');
-    var start = elmt.parentElement.offsetTop;
-    var stop = elmt.parentElement.offsetHeight - elmt.offsetHeight;
-    var position = elmt.offsetTop - pos1;
-    var ratio = parseInt(100 * position / stop) <= 100 ? parseInt(100 * position / stop) : 0;
-
-    if (position + start >= start && position <= stop) {
-      elmt.style.top = position + "px";
-      letScroll(position, index, ratio);
-    }
-  }
-
-  function closeDragElement() {
-    document.onmouseup = null;
-    document.onmousemove = null;
-    elmt.classList.remove('selCursor');
-  }
-}
-
-function letScroll(position, index, ratio) {
-  var _long2 = document.querySelector('#frame' + index).contentWindow.screen.height;
-  var trans = 2.5 * 100 / _long2;
-  var pos = parseInt(_long2 * ratio / 100) + trans;
-  document.querySelector('#frame' + index).contentWindow.scrollTo(0, pos);
 }
 
 function chooseModele(id) {
@@ -20994,133 +20329,6 @@ function scrud_table_img_preview() {
     }
   }
 }
-
-function scrud_lib_import(type) {
-  var target = document.querySelector('#scrud_hidden_lib_file_input');
-
-  switch (type) {
-    case 'image':
-      target.accept = 'image/png, image/jpeg, image/jpg, image/bmp';
-      target.name = 'lib_file_img';
-      break;
-
-    case 'video':
-      target.accept = 'video/avi, video/mp4, video/mpeg4, video/mov';
-      target.name = 'lib_file_vid';
-      break;
-
-    case 'sound':
-      target.accept = 'audio/wav, audio/mp3, audio/mpeg3, audio/flac';
-      target.name = 'lib_file_son';
-      break;
-  }
-
-  target.click();
-
-  target.onchange = function () {
-    target.nextElementSibling.click();
-  };
-}
-
-function scrud_delete_media(elmt, path) {
-  $(document).ready(function () {
-    $.post('/scrud_xhr/scrud_delete_media', {
-      'path': path
-    }, function (data, status) {
-      if (status == 'success') {
-        var output = document.querySelector('#scrud_lib_modal_info p');
-        output.innerHTML = 'Fichier <b>' + data + '</b> supprimé<br>de la <b>bibliothèque</b>';
-        output.parentElement.classList.add('scrud_lib_modal_good');
-        output.parentElement.classList.add('display_lib_modal');
-        setTimeout(function () {
-          output.parentElement.classList.remove('display_lib_modal');
-          refresh_librairies();
-        }, 3000);
-      }
-    });
-  });
-}
-
-function refresh_librairies() {
-  $(document).ready(function () {
-    $.post('/scrud_xhr/refresh_librairies', {
-      'key': 'refresh'
-    }, function (data, status) {
-      if (status == 'success') {
-        document.querySelector('#bibliotheque').children[1].innerHTML = data;
-        var bibliH2 = document.querySelectorAll('#bibliotheque h2');
-        var lib_importer = document.querySelectorAll('.scrud_lib_importer');
-        var lib_download_link = document.querySelectorAll('.scrud_lib_download_link');
-        var color = document.querySelectorAll('.backSection')[0].style.borderTopColor;
-
-        for (var i = 0; i < bibliH2.length; i++) {
-          bibliH2[i].style.borderColor = color;
-        }
-
-        for (var i = 0; i < lib_importer.length; i++) {
-          lib_importer[i].style.backgroundColor = color;
-        }
-
-        for (var i = 0; i < lib_download_link.length; i++) {
-          lib_download_link[i].style.backgroundColor = color;
-        }
-
-        ignite_formData_lib();
-        setTimeout(function () {
-          media_file_duration();
-        }, 1000);
-      }
-    });
-  });
-}
-
-function ignite_formData_lib() {
-  document.querySelector('#scrud_lib_section_checker').parentElement.setAttribute('class', 'scrud_bib');
-  document.querySelector('main').classList.add('showMain');
-  var bodyContent = document.querySelector('body');
-  var inner = '<div id="scrud_lib_modal_info"><p></p></div>';
-  bodyContent.innerHTML = inner + bodyContent.innerHTML;
-  var form = document.forms.namedItem('scrud_lib_upload_form');
-  form.addEventListener('submit', function (sub) {
-    var output = document.querySelector('#scrud_lib_modal_info p');
-    var data = new FormData(document.forms.namedItem('scrud_lib_upload_form'));
-    var type = document.querySelector('#scrud_hidden_lib_file_input').name;
-    data.append("type", type);
-    var req = new XMLHttpRequest();
-    req.open('POST', '/scrud_xhr/lib_uploader', true);
-
-    req.onload = function (load) {
-      if (req.status == 200) {
-        if (req.response.search('404') != -1) {
-          output.innerHTML = 'Une <b>erreur est survenue<br>durant l\'import';
-          output.parentElement.classList.add('scrud_lib_modal_error');
-          output.parentElement.classList.add('display_lib_modal');
-          setTimeout(function () {
-            output.parentElement.classList.remove('display_lib_modal');
-          }, 3000);
-        } else {
-          output.innerHTML = 'Fichier <b>' + req.response + '</b> importé dans<br>la <b>bibliothèque</b>';
-          output.parentElement.classList.add('scrud_lib_modal_good');
-          output.parentElement.classList.add('display_lib_modal');
-          setTimeout(function () {
-            output.parentElement.classList.remove('display_lib_modal');
-            refresh_librairies();
-          }, 3000);
-        }
-      } else {
-        output.innerHTML = 'Une <b>erreur</b> de type <b>' + req.status + '</b><br>est survenue durant l\'import';
-        output.parentElement.classList.add('lib_modal_error');
-        output.parentElement.classList.add('display_lib_modal');
-        setTimeout(function () {
-          output.parentElement.classList.remove('display_lib_modal');
-        }, 3000);
-      }
-    };
-
-    req.send(data);
-    sub.preventDefault();
-  }, false);
-}
 /*
 =============================================================================
 ============================== Dashboard Igniter ============================
@@ -21128,155 +20336,153 @@ function ignite_formData_lib() {
  */
 
 
-if (document.querySelector('.sidebar')) {
+if ($('.sidebar')) {
   igniteDashboard();
 }
 
 function igniteDashboard() {
   $(document).ready(function () {
-    $().ready(function () {
-      $sidebar = $('.sidebar');
-      $sidebar_img_container = $sidebar.find('.sidebar-background');
-      $full_page = $('.full-page');
-      $sidebar_responsive = $('body > .navbar-collapse');
-      window_width = $(window).width();
-      fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+    var $sidebar = $('.sidebar');
+    var $sidebar_img_container = $sidebar.find('.sidebar-background');
+    var $full_page = $('.full-page');
+    var $sidebar_responsive = $('body > .navbar-collapse');
+    var window_width = $(window).width();
+    var fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
-      if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-        if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-          $('.fixed-plugin .dropdown').addClass('open');
+    if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+      if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+        $('.fixed-plugin .dropdown').addClass('open');
+      }
+    }
+
+    $('.fixed-plugin a').click(function (event) {
+      // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+      if ($(this).hasClass('switch-trigger')) {
+        if (event.stopPropagation) {
+          event.stopPropagation();
+        } else if (window.event) {
+          window.event.cancelBubble = true;
         }
       }
+    });
+    $('.fixed-plugin .active-color span').click(function () {
+      $full_page_background = $('.full-page-background');
+      $counter = $('.counter');
+      $(this).siblings().removeClass('active');
+      $(this).addClass('active');
+      var new_color = $(this).data('color');
 
-      $('.fixed-plugin a').click(function (event) {
-        // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-        if ($(this).hasClass('switch-trigger')) {
-          if (event.stopPropagation) {
-            event.stopPropagation();
-          } else if (window.event) {
-            window.event.cancelBubble = true;
-          }
-        }
-      });
-      $('.fixed-plugin .active-color span').click(function () {
-        $full_page_background = $('.full-page-background');
-        $counter = $('.counter');
-        $(this).siblings().removeClass('active');
-        $(this).addClass('active');
-        var new_color = $(this).data('color');
+      if ($sidebar.length != 0) {
+        $sidebar.attr('data-color', new_color);
+      }
 
-        if ($sidebar.length != 0) {
-          $sidebar.attr('data-color', new_color);
-        }
+      if ($full_page.length != 0) {
+        $full_page.attr('filter-color', new_color);
+      }
 
-        if ($full_page.length != 0) {
-          $full_page.attr('filter-color', new_color);
-        }
+      if ($sidebar_responsive.length != 0) {
+        $sidebar_responsive.attr('data-color', new_color);
+      }
 
-        if ($sidebar_responsive.length != 0) {
-          $sidebar_responsive.attr('data-color', new_color);
-        }
+      if ($counter.length != 0) {
+        $counter.attr('data-color', new_color);
+      }
+    });
+    $('.fixed-plugin .background-color .badge').click(function () {
+      $(this).siblings().removeClass('active');
+      $(this).addClass('active');
+      var new_color = $(this).data('background-color');
 
-        if ($counter.length != 0) {
-          $counter.attr('data-color', new_color);
-        }
-      });
-      $('.fixed-plugin .background-color .badge').click(function () {
-        $(this).siblings().removeClass('active');
-        $(this).addClass('active');
-        var new_color = $(this).data('background-color');
+      if ($sidebar.length != 0) {
+        $sidebar.attr('data-background-color', new_color);
+      }
+    });
+    $('.fixed-plugin .img-holder').click(function () {
+      $full_page_background = $('.full-page-background');
+      $(this).parent('li').siblings().removeClass('active');
+      $(this).parent('li').addClass('active');
+      var new_image = $(this).find("img").attr('src');
 
-        if ($sidebar.length != 0) {
-          $sidebar.attr('data-background-color', new_color);
-        }
-      });
-      $('.fixed-plugin .img-holder').click(function () {
-        $full_page_background = $('.full-page-background');
-        $(this).parent('li').siblings().removeClass('active');
-        $(this).parent('li').addClass('active');
-        var new_image = $(this).find("img").attr('src');
-
-        if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-          $sidebar_img_container.fadeOut('fast', function () {
-            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-            $sidebar_img_container.fadeIn('fast');
-          });
-        }
-
-        if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-          var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-          $full_page_background.fadeOut('fast', function () {
-            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-            $full_page_background.fadeIn('fast');
-          });
-        }
-
-        if ($('.switch-sidebar-image input:checked').length == 0) {
-          var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
-          var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+      if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+        $sidebar_img_container.fadeOut('fast', function () {
           $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+          $sidebar_img_container.fadeIn('fast');
+        });
+      }
+
+      if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+        $full_page_background.fadeOut('fast', function () {
           $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+          $full_page_background.fadeIn('fast');
+        });
+      }
+
+      if ($('.switch-sidebar-image input:checked').length == 0) {
+        var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+        $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+        $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+      }
+
+      if ($sidebar_responsive.length != 0) {
+        $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+      }
+    });
+    $('.switch-sidebar-image input').change(function () {
+      $full_page_background = $('.full-page-background');
+      $input = $(this);
+
+      if ($input.is(':checked')) {
+        if ($sidebar_img_container.length != 0) {
+          $sidebar_img_container.fadeIn('fast');
+          $sidebar.attr('data-image', '#');
         }
 
-        if ($sidebar_responsive.length != 0) {
-          $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+        if ($full_page_background.length != 0) {
+          $full_page_background.fadeIn('fast');
+          $full_page.attr('data-image', '#');
         }
-      });
-      $('.switch-sidebar-image input').change(function () {
-        $full_page_background = $('.full-page-background');
-        $input = $(this);
 
-        if ($input.is(':checked')) {
-          if ($sidebar_img_container.length != 0) {
-            $sidebar_img_container.fadeIn('fast');
-            $sidebar.attr('data-image', '#');
-          }
-
-          if ($full_page_background.length != 0) {
-            $full_page_background.fadeIn('fast');
-            $full_page.attr('data-image', '#');
-          }
-
-          background_image = true;
-        } else {
-          if ($sidebar_img_container.length != 0) {
-            $sidebar.removeAttr('data-image');
-            $sidebar_img_container.fadeOut('fast');
-          }
-
-          if ($full_page_background.length != 0) {
-            $full_page.removeAttr('data-image', '#');
-            $full_page_background.fadeOut('fast');
-          }
-
-          background_image = false;
+        background_image = true;
+      } else {
+        if ($sidebar_img_container.length != 0) {
+          $sidebar.removeAttr('data-image');
+          $sidebar_img_container.fadeOut('fast');
         }
-      });
-      $('.switch-sidebar-mini input').change(function () {
-        $body = $('body');
-        $input = $(this);
 
-        if (md.misc.sidebar_mini_active == true) {
-          $('body').removeClass('sidebar-mini');
-          md.misc.sidebar_mini_active = false;
-          $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-        } else {
-          $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
-          setTimeout(function () {
-            $('body').addClass('sidebar-mini');
-            md.misc.sidebar_mini_active = true;
-          }, 300);
-        } // we simulate the window Resize so the charts will get updated in realtime.
+        if ($full_page_background.length != 0) {
+          $full_page.removeAttr('data-image', '#');
+          $full_page_background.fadeOut('fast');
+        }
 
+        background_image = false;
+      }
+    });
+    $('.switch-sidebar-mini input').change(function () {
+      $body = $('body');
+      $input = $(this);
 
-        var simulateWindowResize = setInterval(function () {
-          window.dispatchEvent(new Event('resize'));
-        }, 180); // we stop the simulation of Window Resize after the animations are completed
-
+      if (md.misc.sidebar_mini_active == true) {
+        $('body').removeClass('sidebar-mini');
+        md.misc.sidebar_mini_active = false;
+        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+      } else {
+        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
         setTimeout(function () {
-          clearInterval(simulateWindowResize);
-        }, 1000);
-      });
+          $('body').addClass('sidebar-mini');
+          md.misc.sidebar_mini_active = true;
+        }, 300);
+      } // we simulate the window Resize so the charts will get updated in realtime.
+
+
+      var simulateWindowResize = setInterval(function () {
+        window.dispatchEvent(new Event('resize'));
+      }, 180); // we stop the simulation of Window Resize after the animations are completed
+
+      setTimeout(function () {
+        clearInterval(simulateWindowResize);
+      }, 1000);
     });
   });
   $(document).ready(function () {
@@ -21302,10 +20508,10 @@ function initMediaSize() {
   if (document.querySelector('form') && document.querySelector('form').name === 'scrud_lib_upload_form') {
     var srcs = document.querySelectorAll('audio');
 
-    var _loop = function _loop(i) {
-      srcs[i].onloadedmetadata = function () {
-        var duration = srcs[i].duration,
-            calc = srcs[i].closest('tr').children[3];
+    var _loop = function _loop(_i) {
+      srcs[_i].onloadedmetadata = function () {
+        var duration = srcs[_i].duration,
+            calc = srcs[_i].closest('tr').children[3];
 
         if (duration !== 'NaN') {
           calc.innerHTML = calculateTotalValue(duration);
@@ -21313,16 +20519,16 @@ function initMediaSize() {
       };
     };
 
-    for (var i = 0; i < srcs.length; i++) {
-      _loop(i);
+    for (var _i = 0; _i < srcs.length; _i++) {
+      _loop(_i);
     }
 
     var vids = document.querySelectorAll('video');
 
-    var _loop2 = function _loop2(_i) {
-      vids[_i].onloadedmetadata = function () {
-        var duration = vids[_i].duration,
-            calc = vids[_i].closest('tr').children[3];
+    var _loop2 = function _loop2(_i2) {
+      vids[_i2].onloadedmetadata = function () {
+        var duration = vids[_i2].duration,
+            calc = vids[_i2].closest('tr').children[3];
 
         if (duration !== 'NaN') {
           calc.innerHTML = calculateTotalValue(duration);
@@ -21330,8 +20536,8 @@ function initMediaSize() {
       };
     };
 
-    for (var _i = 0; _i < vids.length; _i++) {
-      _loop2(_i);
+    for (var _i2 = 0; _i2 < vids.length; _i2++) {
+      _loop2(_i2);
     }
   }
 }
@@ -21365,19 +20571,6 @@ function stop_scrud_music(elmt) {
   elmt.classList.remove('show_srcud_stopMusic');
   elmt.nextElementSibling.classList.remove('scrud_show_musicPlayer');
 }
-/*(function() {
-    isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
-
-    if (isWindows) {
-        // if we are on windows OS we activate the perfectScrollbar function
-        $('.sidebar .sidebar-wrapper/!*, .main-panel, .main*!/').perfectScrollbar();
-
-        $('html').addClass('perfect-scrollbar-on');
-    } else {
-        $('html').addClass('perfect-scrollbar-off');
-    }
-})();*/
-
 
 var breakCards = true;
 var searchVisible = 0;
@@ -21398,9 +20591,9 @@ $(document).ready(function () {
   $('body').bootstrapMaterialDesign();
 
   if (document.querySelector('.sidebar')) {
-    $sidebar = $('.sidebar');
+    var $sidebar = $('.sidebar');
     md.initSidebarsCheck();
-    window_width = $(window).width(); // check if there is an image set for the sidebar's background
+    var window_width = $(window).width(); // check if there is an image set for the sidebar's background
 
     md.checkSidebarImage(); //    Activate bootstrap-select
 
@@ -21424,7 +20617,7 @@ $(document).ready(function () {
   }
 });
 $(document).on('click', '.navbar-toggler', function () {
-  $toggle = $(this);
+  var $toggle = $(this);
 
   if (mobile_menu_visible == 1) {
     $('html').removeClass('nav-open');
@@ -21491,162 +20684,223 @@ function debounce(func, wait, immediate) {
 }
 
 ;
-
-function add_listeners_ftp() {
-  var ftp = document.querySelectorAll('.bandeau_ftp');
-
-  if (ftp) {
-    for (var i = 0; i < ftp.length; i++) {
-      ftp[i].children[1].addEventListener('click', displayFTParray);
-    }
-  }
-}
-
-function displayFTParray(ftp) {
-  var target = ftp.currentTarget;
-  var array = target.parentElement.nextElementSibling;
-
-  if (array.style.height == '0px') {
-    array.style.height = '400px';
-    array.style.opacity = '1';
-  } else {
-    array.style.height = '0px';
-    array.style.opacity = '0';
-  }
-}
-
-function earse_ftp_file(url, elmt) {
-  var target = elmt;
-  var twin = elmt.parentElement.nextElementSibling;
-  var erase = elmt.previousElementSibling.previousElementSibling;
-  erase.classList.add('show_eraser_loader');
-  var index = parseInt(elmt.parentElement.dataset.id);
-  var parent = elmt.parentElement.parentElement;
-  var childies = parent.children;
-  twin.style.height = '0px';
-  twin.style.opacity = '0';
-  $(document).ready(function () {
-    $.post('/ajax/earse_ftp_file', {
-      path: url
-    }, function (data, status) {
-      if (status == 'success') {
-        elmt.parentElement.classList.add('hide_all_table');
-        setTimeout(function () {
-          elmt.parentElement.style.display = 'none';
-
-          for (var i = 0; i < childies.length; i++) {
-            if (childies[i].dataset.id == index) {
-              parent.removeChild(childies[i + 1]);
-              parent.removeChild(childies[i]);
-            }
-          }
-
-          if (parent.innerHTML == '') {
-            parent.innerHTML = '<p id="no_ftp_result">Aucun export disponible pour le moment.</p>';
-          }
-        }, 450);
-      }
-    });
-  });
-}
-
-function import_ftp(elmt) {
-  document.querySelector('#hidden_ftp_form input').click();
-}
-
-function load_ftp(elmt) {
-  var form = document.querySelector('#hidden_ftp_form');
-  imports = [];
-  importsObj = [];
-
-  if (elmt.files) {
-    for (var i = 0; i < elmt.files.length; i++) {
-      var file = elmt.files[i];
-      imports.push(file.name);
-      importsObj.push(file);
-    }
-
-    importsObj.forEach(function (file) {
-      var formData = new FormData();
-      var request = new XMLHttpRequest();
-      formData.set('ftp_import', file);
-      formData.set('xhr2', 'import_ftp');
-      request.open('POST', '/admin/request');
-
-      request.onload = function (event) {
-        var nom = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : file.name;
-
-        if (request.status == 200) {
-          document.querySelector('#ftp_content').innerHTML = event.srcElement.response;
-          add_listeners_ftp();
-          get_servers_details();
-        } else {
-          console.log('Une erreur s\'est produite...');
-        }
-      };
-
-      request.send(formData);
-    });
-  }
-}
-
-function get_servers_details() {
-  var servers = document.querySelectorAll('server');
-
-  if (servers) {
-    for (var i = 0; i < servers.length; i++) {
-      var lists = servers[i].children;
-      var list = '<ul class="modale_ftp">';
-
-      for (var j = 0; j < lists.length; j++) {
-        if (lists[j].tagName == 'HOST' || lists[j].tagName == 'PORT' || lists[j].tagName == 'USER') {
-          list += '<li><b>' + lists[j].tagName.charAt(0).toUpperCase() + lists[j].tagName.slice(1).toLowerCase() + ' : </b><span>' + lists[j].innerHTML + '</span></li>';
-        } else if (lists[j].tagName == 'PASS') {
-          list += '<li><b>' + lists[j].tagName.charAt(0).toUpperCase() + lists[j].tagName.slice(1).toLowerCase() + ' : </b><span>' + window.atob(lists[j].innerHTML) + '</span></li>';
-        }
-      }
-
-      list += '</ul>';
-      var children = servers[i].children;
-
-      for (var j = 0; j < children.length; j++) {
-        if (children[j].tagName == 'NAME') {
-          var inner = children[j].innerHTML;
-          children[j].innerHTML = '<p onclick="display_ftp_modal(this);">' + inner + '</p>';
-        }
-      }
-
-      var inner = servers[i].querySelector('name').innerHTML + list;
-      servers[i].innerHTML = inner;
-    }
-  }
-}
-
-function display_ftp_modal(elmt) {
-  if (elmt.nextElementSibling.classList.contains('show_ftp_modale')) {
-    elmt.nextElementSibling.classList.remove('show_ftp_modale');
-    elmt.nextElementSibling.style.height = '0px';
-  } else {
-    var modale_ftp = document.querySelectorAll('.modale_ftp');
-
-    for (var i = 0; i < modale_ftp.length; i++) {
-      modale_ftp[i].classList.remove('show_ftp_modale');
-      modale_ftp[i].style.height = '0px';
-    }
-
-    elmt.nextElementSibling.style.height = elmt.nextElementSibling.scrollHeight + 20 + 'px';
-    elmt.nextElementSibling.classList.add('show_ftp_modale');
-  }
-}
 /*
 * =============================================================================
 * ============================= Working Methods ===============================
 * =============================================================================
 */
 
-
 Object(_xhr_js__WEBPACK_IMPORTED_MODULE_0__["default"])('tests', {});
-console.log('test admin');
+var ongletSelected = document.querySelector('.hoverSpan');
+
+if (ongletSelected) {
+  var label = ongletSelected.querySelector('p');
+  var posY = ongletSelected.parentElement.offsetTop - 20;
+
+  if (label.innerHTML != 'Statistiques') {
+    ongletSelected.parentElement.parentElement.parentElement.scrollTo(0, posY);
+  }
+}
+
+initSearch();
+
+function initSearch() {
+  var searchInputs = document.querySelectorAll('.searchInputs');
+
+  for (var i = 0; i < searchInputs.length; i++) {
+    searchInputs[i].onkeyup = function (ev) {
+      var target = ev.currentTarget,
+          value = target.value;
+
+      if (value.length > 0) {
+        target.nextElementSibling.disabled = false;
+      } else {
+        target.nextElementSibling.disabled = true;
+      }
+    };
+  }
+}
+
+var tables = document.querySelectorAll('.table');
+
+for (var i = 0; i < tables.length; i++) {
+  var table = tables[i],
+      th = table.querySelectorAll('th'),
+      _long = 0;
+
+  for (var j = 0; j < th.length; j++) {
+    _long += 180;
+  }
+
+  table.style.width = _long + 'px';
+}
+
+$(document).ready(function () {
+  document.querySelector('#mainLoader').classList.remove('displayLoader');
+  document.querySelector('#pageReplacer').classList.add('displayCard');
+  paginater();
+});
+
+function paginater() {
+  var scrudCard = document.querySelector('.scrudCard');
+
+  if (scrudCard) {
+    if (document.querySelector('#entitiesCounter')) {
+      document.querySelector('.navbar-brand').removeChild(document.querySelector('#entitiesCounter'));
+    }
+
+    document.querySelector('.navbar-brand').innerHTML += '<span id="entitiesCounter">' + document.querySelector('.scrudCard').dataset.count + '</span>';
+    var pagi = document.querySelectorAll('.pagination');
+
+    for (var i = 0; i < pagi.length; i++) {
+      pagi[i].parentElement.removeChild(pagi[i]);
+    }
+
+    var trs = scrudCard.querySelectorAll('tBody tr');
+
+    for (var i = 0; i < trs.length; i++) {
+      trs[i].classList.add('trVisible');
+    }
+
+    for (var i = 0; i < trs.length; i++) {
+      if (i > 9) {
+        trs[i].classList.remove('trVisible');
+      }
+    }
+
+    var counter = scrudCard.dataset.count != '' ? parseInt(scrudCard.dataset.count) : 0;
+
+    if (counter > 0) {
+      var nb = Math.ceil(counter / 10);
+      var html = '<div class="pagination">';
+      html += '<select>';
+
+      for (var i = 0; i < nb; i++) {
+        html += '<option value="' + (i + 1) + '">' + (i + 1) + '</option>';
+      }
+
+      html += '</select>';
+      html += '<span>sur ' + nb + '</span>';
+      html += '</div>';
+      document.querySelector('#pageReplacer').innerHTML += html;
+      var select = document.querySelectorAll('.pagination select');
+
+      for (var i = 0; i < select.length; i++) {
+        select[i].onchange = function (ev) {
+          var target = ev.currentTarget,
+              value = target.value * 10,
+              start = value - 10;
+          console.log(start);
+          console.log(value);
+          var scrudCard = document.querySelector('.scrudCard');
+          var trz = scrudCard.querySelectorAll('tBody tr');
+
+          for (var j = 0; j < trz.length; j++) {
+            trz[j].classList.remove('trVisible');
+          }
+
+          for (var j = 0; j < trz.length; j++) {
+            if (j >= start && j < value) {
+              trz[j].classList.add('trVisible');
+            }
+          }
+
+          document.querySelector('#pageReplacer').scrollTo(0, 0);
+        };
+      }
+    }
+  }
+}
+
+function igniteSearchInputs() {
+  var searchInputs = document.querySelectorAll('.thSearch');
+
+  for (var i = 0; i < searchInputs.length; i++) {
+    var input = searchInputs[i].querySelector('input');
+
+    input.onkeyup = function (ev) {
+      var target = ev.currentTarget,
+          value = target.value,
+          data = target.dataset.col,
+          scrudCard = document.querySelector('.scrudCard'),
+          trz = scrudCard.querySelectorAll('tBody tr'),
+          paginations = document.querySelectorAll('.pagination');
+
+      if (value.length > 0) {
+        for (var j = 0; j < paginations.length; j++) {
+          paginations[j].style.display = 'none';
+        }
+
+        for (var j = 0; j < trz.length; j++) {
+          var tr = trz[j],
+              tds = tr.querySelectorAll('td');
+          tr.classList.remove('trVisible');
+
+          for (var k = 0; k < tds.length; k++) {
+            var td = tds[k];
+
+            if (td.classList.contains('td-' + data) && (td.innerText.toLowerCase().indexOf(value.toLowerCase()) > -1 || td.textContent.toLowerCase().indexOf(value.toLowerCase()) > -1)) {
+              var parent = td.parentElement.classList.add('trVisible');
+            }
+          }
+        }
+      } else {
+        for (var j = 0; j < paginations.length; j++) {
+          paginations[j].style.display = 'flex';
+          paginations[j].querySelector('select').children[0].selected = true;
+        }
+
+        for (var j = 0; j < trz.length; j++) {
+          var tr = trz[j];
+          tr.classList.add('trVisible');
+        }
+
+        paginater();
+        igniteSearchInputs();
+      }
+    };
+  }
+}
+
+function deleteRowScrud() {
+  var scrudDeleteLink = document.querySelectorAll('.scrudDeleteLink');
+
+  for (var i = 0; i < scrudDeleteLink.length; i++) {
+    var deleter = scrudDeleteLink[i];
+
+    deleter.onclick = function (ev) {
+      var target = ev.currentTarget,
+          id = target.dataset.id,
+          url = target.dataset.url.slice(1),
+          json = {
+        'id': id,
+        'url': url
+      },
+          counter = document.querySelector('#entitiesCounter'),
+          tr = target.closest('tr'),
+          parent = tr.parentElement,
+          ref = document.querySelector('.scrudCard');
+      Object(_xhr_js__WEBPACK_IMPORTED_MODULE_0__["default"])('delete', json);
+
+      if (counter) {
+        var index = parseInt(counter.innerHTML);
+        var newIndex = index - 1;
+        ref.dataset.count = newIndex;
+        tr.style.backgroundColor = 'rgba(179, 45, 0, 0.5)';
+        setTimeout(function () {
+          parent.removeChild(tr);
+          paginater();
+          deleteRowScrud();
+        }, 1000);
+      }
+    };
+  }
+}
+
+$(document).ready(function () {
+  igniteSearchInputs();
+  deleteRowScrud();
+});
 
 /***/ }),
 
@@ -31739,14 +30993,32 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 /*!**************************************!*\
   !*** ./resources/js/script-admin.js ***!
   \**************************************/
-/*! exports provided: getTestsResponse */
+/*! exports provided: getTestsResponse, getDeleteResponse */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTestsResponse", function() { return getTestsResponse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDeleteResponse", function() { return getDeleteResponse; });
 function getTestsResponse(data) {
   console.log(data);
+}
+function getDeleteResponse(infos) {
+  var title = infos.title,
+      modal = document.createElement('div');
+  modal.setAttribute('class', 'modal');
+  modal.setAttribute('id', 'delete-modal');
+  modal.innerHTML = '<p><b>' + title + '</b> a bien été effacé.</p>';
+  document.body.appendChild(modal);
+  setTimeout(function () {
+    document.querySelector('.modal').classList.add('showModal');
+  }, 100);
+  setTimeout(function () {
+    document.querySelector('.modal').classList.remove('showModal');
+  }, 3000);
+  setTimeout(function () {
+    document.body.removeChild(document.querySelector('.modal'));
+  }, 3250);
 }
 
 /***/ }),
@@ -31807,6 +31079,10 @@ function xhr(controller, json) {
 
             case 'getTestsResponse':
               Object(_script_admin_js__WEBPACK_IMPORTED_MODULE_1__["getTestsResponse"])(infos);
+              break;
+
+            case 'getDeleteResponse':
+              Object(_script_admin_js__WEBPACK_IMPORTED_MODULE_1__["getDeleteResponse"])(infos);
               break;
 
             default:

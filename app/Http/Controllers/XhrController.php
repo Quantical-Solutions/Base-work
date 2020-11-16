@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Article;
 
 class XhrController extends Controller
 {
@@ -168,5 +169,25 @@ class XhrController extends Controller
         $d = Carbon::parse($date);
         $final = ucfirst($d->locale('fr')->isoFormat('dddd')) . '<br>' . ucfirst($d->locale('fr')->isoFormat('Do MMMM'));
         return $final;
+    }
+
+    public function get_delete($request)
+    {
+        $id = $request->input('id');
+        $url = $request->input('url');
+        $title = '';
+        switch ($url) {
+
+            case 'articles':
+                $article = Article::select('title_fr')->where('id', $id)->first();
+                $title .= $article->title_fr;
+                Article::where('id', $id)->delete();
+                break;
+
+            default:
+
+
+        }
+        return ['id' => $id, 'url' => $url, 'title' => $title];
     }
 }

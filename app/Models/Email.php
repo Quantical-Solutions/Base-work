@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Email extends Model
 {
     use HasFactory;
+
+    protected $table = 'emails';
+    public $timestamps = true;
+
+    protected $fillable = [
+        'email', 'department', 'entity_id'
+    ];
 }

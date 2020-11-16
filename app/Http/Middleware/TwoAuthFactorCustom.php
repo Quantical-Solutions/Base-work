@@ -20,7 +20,7 @@ class TwoAuthFactorCustom
         if ($request->session()->exists('2FC')) {
             $response =  $next($request);
         } else {
-            $response =  redirect()->route('Challenge');
+            $response = redirect()->route('Challenge');
         }
         return $response;
     }

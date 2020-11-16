@@ -138,3 +138,24 @@ if (!function_exists('geoloc')) {
         return 'cooool';
     }
 }
+
+if (!function_exists('compileStats')) {
+
+    function compileStats($type, $year)
+    {
+        return json_encode([]);
+    }
+}
+
+if (!function_exists('isMyRoute')) {
+
+    function isMyRoute($needle)
+    {
+        $segment = explode('/', $_SERVER['REQUEST_URI'])[1];
+        if ($segment == 'utilisateurs' || $segment == 'games' || $segment == 'societes') {
+            $all = explode('/', $_SERVER['REQUEST_URI'])[1] . '/' . explode('/', $_SERVER['REQUEST_URI'])[2];
+            return $all == $needle;
+        }
+        return $segment == $needle;
+    }
+}

@@ -31,7 +31,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Identifiant</label>
-                                <input type="email" name="email" id="email" autocomplete="off" class="form-control" required>
+                                <input autofocus type="email" name="email" id="email" autocomplete="off" class="form-control" required>
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,6 @@ time, mark, audio, video {
     text-decoration: none;
     resize: none;
     list-style: none;
-    color: inherit;
 }
 
 html, body, div, span, applet, object, iframe,
@@ -38,7 +37,6 @@ time, mark, audio, video {
     font-family: 'gothamxlight', Tahoma, Geneva, sans-serif;
     border: none;
     outline: none;
-    background-color: inherit;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -19405,14 +19405,32 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**************************************!*\
   !*** ./resources/js/script-admin.js ***!
   \**************************************/
-/*! exports provided: getTestsResponse */
+/*! exports provided: getTestsResponse, getDeleteResponse */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTestsResponse", function() { return getTestsResponse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDeleteResponse", function() { return getDeleteResponse; });
 function getTestsResponse(data) {
   console.log(data);
+}
+function getDeleteResponse(infos) {
+  var title = infos.title,
+      modal = document.createElement('div');
+  modal.setAttribute('class', 'modal');
+  modal.setAttribute('id', 'delete-modal');
+  modal.innerHTML = '<p><b>' + title + '</b> a bien été effacé.</p>';
+  document.body.appendChild(modal);
+  setTimeout(function () {
+    document.querySelector('.modal').classList.add('showModal');
+  }, 100);
+  setTimeout(function () {
+    document.querySelector('.modal').classList.remove('showModal');
+  }, 3000);
+  setTimeout(function () {
+    document.body.removeChild(document.querySelector('.modal'));
+  }, 3250);
 }
 
 /***/ }),
@@ -19473,6 +19491,10 @@ function xhr(controller, json) {
 
             case 'getTestsResponse':
               Object(_script_admin_js__WEBPACK_IMPORTED_MODULE_1__["getTestsResponse"])(infos);
+              break;
+
+            case 'getDeleteResponse':
+              Object(_script_admin_js__WEBPACK_IMPORTED_MODULE_1__["getDeleteResponse"])(infos);
               break;
 
             default:

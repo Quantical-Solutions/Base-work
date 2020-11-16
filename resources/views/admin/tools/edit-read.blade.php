@@ -1,9 +1,9 @@
 @extends('admin.template')
 
 @section('title')
-    Admin - Edit / Read
+    {!! $title !!}
 @endsection
 
 @section('content')
-    Edit / Read
+    {!! $title !!}
 @endsection
