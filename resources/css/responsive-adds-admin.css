@@ -20,6 +20,12 @@
         width: calc(100% - 60px);
         left: 30px;
     }
+
+    .cal-modal-sub-container {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1279px) {
@@ -43,6 +49,37 @@
         height: calc(100% - 60px);
         width: calc(100% - 60px);
         left: 30px;
+    }
+
+    .cal-modal-sub-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    /* For calendars headers: */
+
+    .calendars-card [class*="card-header-"]:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
+        height: 140px;
+    }
+
+    .fc-left {
+        top: 50px!important;
+        right: unset!important;
+        left: 21px;
+    }
+
+    .fc-center {
+        right: unset!important;
+        top: 82px!important;
+        left: 30px;
+    }
+
+    .fc-right {
+        right: unset!important;
+        top: 81px!important;
+        left: 135px;
     }
 }
 
@@ -68,6 +105,14 @@
         width: calc(100% - 40px);
         left: 20px;
     }
+
+    .order1 {
+        order: 1;
+    }
+
+    .order2 {
+        order: 2;
+    }
 }
 
 @media only screen and (min-width: 260px) and (max-width: 519px) {
@@ -92,6 +137,18 @@
         width: calc(100% - 20px);
         left: 10px;
     }
+
+    .fc-left h2 {
+        font-size: 12px!important;
+    }
+
+    .order1 {
+        order: 1;
+    }
+
+    .order2 {
+        order: 2;
+    }
 }
 
 @media only screen and (max-width: 259px) {
@@ -115,5 +172,17 @@
         height: calc(100% - 20px);
         width: calc(100% - 20px);
         left: 10px;
+    }
+
+    .fc-left h2 {
+        font-size: 12px!important;
+    }
+
+    .order1 {
+        order: 1;
+    }
+
+    .order2 {
+        order: 2;
     }
 }

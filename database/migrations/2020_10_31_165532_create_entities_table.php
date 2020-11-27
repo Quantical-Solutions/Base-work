@@ -15,7 +15,7 @@ class CreateEntitiesTable extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('role_id')->unsigned();
+            $table->bigInteger('role_id')->unsigned()->nullable();
             $table->foreign('role_id')->references('id')->on('roles');
             $table->boolean('qs_entity')->default(0);
             $table->string('name');

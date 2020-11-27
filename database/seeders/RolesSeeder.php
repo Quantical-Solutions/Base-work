@@ -19,49 +19,42 @@ class RolesSeeder extends Seeder
             [
                 'name' => 'Administrateur',
                 'app_name' => 'Gestion',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ],
             [
                 'name' => 'RH',
                 'app_name' => 'Gestion',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ],
             [
                 'name' => 'Commercial',
                 'app_name' => 'Gestion',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ],
             [
                 'name' => 'Employé',
                 'app_name' => 'Gestion',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ],
             [
                 'name' => 'Client',
                 'app_name' => 'Drive',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ],
             [
                 'name' => 'Apprenant',
                 'app_name' => 'Mooc',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ],
             [
                 'name' => 'Fournisseur',
                 'app_name' => 'Drive',
-                'entity_id' => 1,
                 'created_at' => $date,
                 'updated_at' => $date
             ]

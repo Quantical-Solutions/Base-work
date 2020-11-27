@@ -6,7 +6,7 @@
 
 
 import { getUsersResponse } from './script.js';
-import { getTestsResponse, getDeleteResponse } from './script-admin.js';
+import { getTestsResponse, getDeleteResponse, getVisioResponse } from './script-admin.js';
 
 export default function xhr(controller, json) {
 
@@ -40,6 +40,10 @@ export default function xhr(controller, json) {
 
                         case 'getDeleteResponse':
                             getDeleteResponse(infos);
+                            break;
+
+                        case 'getVisioResponse':
+                            getVisioResponse(infos);
                             break;
 
                         default:

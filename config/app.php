@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
     'admin' => env('ADMIN_URL', 'http://localhost'),
+    'visio' => env('VISIO_URL', 'http://localhost'),
+    'drive' => env('DRIVE_URL', 'http://localhost'),
     'asset_url' => env('ASSET_URL', null),
 
     /*

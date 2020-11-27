@@ -19405,13 +19405,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**************************************!*\
   !*** ./resources/js/script-admin.js ***!
   \**************************************/
-/*! exports provided: getTestsResponse, getDeleteResponse */
+/*! exports provided: getTestsResponse, getDeleteResponse, getVisioResponse */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTestsResponse", function() { return getTestsResponse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDeleteResponse", function() { return getDeleteResponse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getVisioResponse", function() { return getVisioResponse; });
 function getTestsResponse(data) {
   console.log(data);
 }
@@ -19431,6 +19432,19 @@ function getDeleteResponse(infos) {
   setTimeout(function () {
     document.body.removeChild(document.querySelector('.modal'));
   }, 3250);
+}
+function getVisioResponse(data) {
+  if (data.visio) {
+    var visioLink = data.visio,
+        addConf = document.querySelector('#add-conf'),
+        setConf = document.querySelector('#go-to-conf'),
+        div = document.querySelector('#room-url');
+    setConf.querySelector('input').value = visioLink;
+    setConf.querySelector('a').href = visioLink;
+    addConf.style.display = 'none';
+    setConf.style.display = 'flex';
+    div.style.display = 'flex';
+  }
 }
 
 /***/ }),
@@ -19495,6 +19509,10 @@ function xhr(controller, json) {
 
             case 'getDeleteResponse':
               Object(_script_admin_js__WEBPACK_IMPORTED_MODULE_1__["getDeleteResponse"])(infos);
+              break;
+
+            case 'getVisioResponse':
+              Object(_script_admin_js__WEBPACK_IMPORTED_MODULE_1__["getVisioResponse"])(infos);
               break;
 
             default:

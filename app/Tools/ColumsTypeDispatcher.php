@@ -54,7 +54,7 @@ if (!function_exists('relationType')) {
     function relationType($data, $type, $relation, $relationData, $values, $mode)
     {
         $html = '';
-        
+
         if ($relation == 1) {
 
             $html .= selectType($data, $type, $relationData, $mode);
@@ -135,6 +135,11 @@ if (!function_exists('inputType')) {
         if ($type['type'] == 'text') {
 
             $html .= '<textarea ' . $readOnly . ' value="' . $value . '" name="' . $type['col'] . '">' . $value . '</textarea>';
+
+        } else if ($type['type'] == 'editor') {
+
+            $html .= '<span class="addTextarea">&plus;</span>';
+            $html .= '<textarea ' . $readOnly . ' value="' . $value . '[]" name="' . $type['col'] . '">' . $value . '</textarea>';
 
         } else if ($type['type'] == 'radio') {
 

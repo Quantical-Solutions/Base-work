@@ -1,12 +1,16 @@
-<div class="sidebar" data-color="purple" data-background-color="white" data-image="/media/img/material/sidebar-1.jpg">
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="/media/img/material/sidebar-1">
     <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
     <div class="logo">
-        <a href="/fr" class="simple-text logo-normal" target="_blank">
-            {!! import_svg('logo-goldsilver-simple', 'logoSidebar') !!}
+        <a href="{{ config('app.url') }}" class="simple-text logo-normal" target="_blank">
+            <div id="logoLoaderType">
+                {!! import_svg('Logo', 'loaderLogo', [['id', 'loaderLogo1']]) !!}
+                {!! import_svg('Logo2', 'loaderLogo', [['id', 'loaderLogo2']]) !!}
+                {!! import_svg('Logo3', 'loaderLogo', [['id', 'loaderLogo3']]) !!}
+            </div>
             <span>QUANTICAL SOLUTIONS</span>
         </a>
     </div>
@@ -174,4 +178,5 @@
         </ul>
         <div id="overlay"></div>
     </div>
+    <div class="sidebar-background" style='background-image: url("/media/img/adminBG.svg")'></div>
 </div>

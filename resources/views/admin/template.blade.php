@@ -11,6 +11,17 @@
     <title>@yield('title')</title>
     <link rel="canonical" href="{{ config('app.admin') }}">
     <link rel="icon" href="/media/img/favicon.png">
+
+    @if (Request::route()->getName() === 'calendriers')
+        <!--     Fullcalendar stylesheets     -->
+        <link rel="stylesheet" href="/js/fullcalendar/packages/daygrid/main.css">
+        <link rel="stylesheet" href="/js/fullcalendar/packages/list/main.css">
+        <link rel="stylesheet" href="/js/fullcalendar/packages/timegrid/main.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1/leaflet.css" />
+        <script src="https://cdn.jsdelivr.net/leaflet/1/leaflet.js"></script>
+
+        @endif
+
     <link rel="stylesheet" href="/css/admin.css" type="text/css">
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -18,6 +29,7 @@
     <!-- JS Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js" integrity="sha256-TED/E3SGPvEvuKbvWC781am0/paerbpwFulbWXPBPds=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/places.js/1.19.0/places.min.js" integrity="sha512-6TSW8PEc+JET/TBENLNC9gKJuEkyhQZ8SEidKis9m0DS+3J3axHbbwYoLeVg8lAJ/1CglDy847pzTCZ0rqmrVg==" crossorigin="anonymous"></script>
 </head>
 <body id="body-admin" data-id="{{ Auth::id() }}" data-search="" class="">
 <div id="opacityBG"></div>
@@ -42,7 +54,7 @@
                     <div class="navbar-form">
                         <form method="post" action="/recherche" class="input-group no-border">
                             @csrf
-                            <input type="text" name="q" spellcheck="false" class="form-control searchInputs" placeholder="Recherche...">
+                            <input type="text" name="q" autocomplete="off" spellcheck="false" class="form-control searchInputs" placeholder="Recherche...">
                             <button disabled type="submit" class="btn btn-white btn-round btn-just-icon navSearch">
                                 <i class="material-icons">search</i>
                                 <div class="ripple-container"></div>
@@ -89,11 +101,11 @@
         </nav>
         <!-- End Navbar -->
         <main class="content">
-            <div id="mainLoader">
-                <div class="loaderDiv" id="loaderDiv1"></div>
-                <div class="loaderDiv" id="loaderDiv2"></div>
-                <div class="loaderDiv" id="loaderDiv3"></div>
-                <div class="loaderDiv" id="loaderDiv4"></div>
+            <div id="mainLoader" class="displayLoader">
+                {!! import_svg('Logo', 'loaderLogo', [['id', 'loaderLogo1']]) !!}
+                {!! import_svg('Logo2', 'loaderLogo', [['id', 'loaderLogo2']]) !!}
+                {!! import_svg('Logo3', 'loaderLogo', [['id', 'loaderLogo3']]) !!}
+                <p id="loadingText">LOADING</p>
             </div>
             <div class="container-fluid" id="pageReplacer">
                 @yield('content')

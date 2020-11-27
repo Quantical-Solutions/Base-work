@@ -130,9 +130,9 @@ body {
     color: #212529;
     text-align: left;
     background-color: #fafafa;
-    background-image: url("/media/img/adminBG.jpg");
+    background-image: url("/media/img/adminBG.svg");
     background-size: cover;
-    background-position: center;
+    background-position: left center;
     background-repeat: no-repeat;
 }
 
@@ -194,8 +194,9 @@ address {
 ol,
 ul,
 dl {
-    margin-top: 0;
-    margin-bottom: 1rem;
+    /*margin-top: 0;
+    margin-bottom: 1rem;*/
+    margin: 0;
 }
 
 ol ol,
@@ -629,8 +630,9 @@ address {
 ol,
 ul,
 dl {
-    margin-top: 0;
-    margin-bottom: 1rem;
+    /*margin-top: 0;
+    margin-bottom: 1rem;*/
+    margin: 0;
 }
 
 ol ol,
@@ -1052,10 +1054,24 @@ samp {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-code {
+/*code {
     font-size: 87.5%;
     color: #e91e63;
     word-break: break-word;
+}*/
+
+code {
+    font-size: 87.5%;
+    color: var(--colorGold);
+    word-break: break-word;
+    padding: 10px;
+    background-color: #3C3C3C;
+    border-radius: 5px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5) inset;
+}
+
+.copy code::selection {
+    color: var(--colorGold);
 }
 
 a>code {
@@ -4535,6 +4551,11 @@ tbody.collapse.show {
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: 0.25rem;
+    transition: padding linear 0.2s;
+}
+
+.toggled {
+    padding: 0.25rem calc(0.75rem - 5px)!important;
 }
 
 .navbar-toggler:hover,
@@ -4554,6 +4575,31 @@ tbody.collapse.show {
     content: "";
     background: no-repeat center center;
     background-size: 100% 100%;
+    transform: rotate(0deg);
+    opacity: 1;
+    position: relative;
+    left: 0;
+    transition: all linear 0.2s;
+}
+
+.navbar-toggler-icon:nth-child(2),
+.navbar-toggler-icon:nth-child(4) {
+    transform-origin: 15% 50%;
+}
+
+.toggled .navbar-toggler-icon:nth-child(2) {
+    transform: rotate(45deg);
+    width: 25px!important;
+}
+
+.toggled .navbar-toggler-icon:nth-child(3) {
+    opacity: 0;
+    left: -10px!important;
+}
+
+.toggled .navbar-toggler-icon:nth-child(4) {
+    transform: rotate(-45deg);
+    width: 25px!important;
 }
 
 @media (max-width: 575.98px) {
@@ -5310,93 +5356,13 @@ td.text-primary div span:hover, .scrud_lib_download_link:hover, .scrud_lib_delet
     background-attachment: fixed;
 }
 
-.displayLoader, .displayLoaderOut {
+.displayLoader {
     visibility: visible!important;
     opacity: 1!important;
 }
 
 .mainOverflowHidden {
     overflow: hidden!important;
-}
-
-#loaderDiv1 {
-    z-index: 4;
-    background-color: #2CA8FF;
-    left: -36px!important;
-    width: calc(27% + 39px);
-    transform: skewX(2deg) translateX(0);
-    background-size: auto 100%;
-    background-position: center left;
-    transition: opacity linear 0.15s 1s;
-}
-
-#loaderDiv2 {
-    z-index: 3;
-    background-color: #18ce0f;
-    left: calc(25% - 10px)!important;
-    width: calc(27% + 24px);
-    transform: skewX(-2deg) translateX(0);
-    background-size: auto 210%;
-    background-position: center;
-    transition: opacity linear 0.15s 1s;
-}
-
-#loaderDiv3 {
-    z-index: 2;
-    background-color: #ffeb3b;
-    left: calc(50% - 15px)!important;
-    width: calc(27% + 32px);
-    transform: skewX(2deg) translateX(0);
-    background-size: auto 170%;
-    background-position: center;
-    transition: opacity linear 0.15s 1s;
-}
-
-#loaderDiv4 {
-    z-index: 1;
-    background-color: #e91e63;
-    left: calc(75% - 5px)!important;
-    width: calc(27% + 20px);
-    transform: skewX(-2deg) translateX(0);
-    background-size: auto 120%;
-    background-position: center right;
-    transition: opacity linear 0.15s 1s;
-}
-
-.displayLoader #loaderDiv1 {
-    animation: bounceInRight1 1s ease-in-out 0.15s;
-    opacity: 1!important;
-}
-
-.displayLoader #loaderDiv2 {
-    animation: bounceInRight2 1s ease-in-out 0.35s;
-    opacity: 1!important;
-}
-
-.displayLoader #loaderDiv3 {
-    animation: bounceInRight3 1s ease-in-out 0.55s;
-    opacity: 1!important;
-}
-
-.displayLoader #loaderDiv4 {
-    animation: bounceInRight4 1s ease-in-out 0.75s;
-    opacity: 1!important;
-}
-
-.displayLoaderOut #loaderDiv1 {
-    animation: bounceOutLeft1 1.2s ease-in-out 0.15s;
-}
-
-.displayLoaderOut #loaderDiv2 {
-    animation: bounceOutLeft2 1.2s ease-in-out 0.35s;
-}
-
-.displayLoaderOut #loaderDiv3 {
-    animation: bounceOutLeft3 1.2s ease-in-out 0.55s;
-}
-
-.displayLoaderOut #loaderDiv4 {
-    animation: bounceOutLeft4 1.2s ease-in-out 0.75s;
 }
 
 #modale {
@@ -12103,10 +12069,10 @@ fieldset[disabled] .form-group.is-focused .form-check .form-check-label {
 
 .form-check .form-check-sign .check {
     position: relative;
-    display: inline-block;
+    display: flex;
     width: 20px;
     height: 20px;
-    border: 1px solid rgba(0, 0, 0, .54);
+    border: 1px solid var(--colorGrey);
     overflow: hidden;
     z-index: 1;
     border-radius: 3px;
@@ -12131,7 +12097,7 @@ fieldset[disabled] .form-group.is-focused .form-check .form-check-label {
 }
 
 .form-check .form-check-input:checked~.form-check-sign .check {
-    background: #2D2D2D;
+    background: var(--colorGold);
 }
 
 .form-check .form-check-input:checked~.form-check-sign .check:before {
@@ -12243,11 +12209,18 @@ fieldset[disabled] .form-group.is-focused .form-check .form-check-label {
 }
 
 .form-check .form-check-label span {
-    display: block;
+    display: flex;
     position: absolute;
     left: -1px;
     top: -1px;
     transition-duration: 0.2s;
+}
+
+.form-check {
+    display: flex;
+    margin: 0!important;
+    width: 20px;
+    height: 20px;
 }
 
 .form-check .form-check-label .circle {
@@ -12607,12 +12580,27 @@ fieldset[disabled] .is-focused .switch label:focus {
 
 .form-control,
 .is-focused .form-control {
-    background-image: linear-gradient(to top, #2D2D2D 2px, rgba(145, 145, 145, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+    background-image: linear-gradient(to top, var(--colorGold) 2px, rgba(145, 145, 145, 0) 2px), linear-gradient(to top, #f0dfc1 1px, rgba(210, 210, 210, 0) 1px);
 }
 
-.form-control:invalid {
-    background-image: linear-gradient(to top, #f44336 2px, rgba(244, 67, 54, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+.calendar1 .form-control,
+.calendar1 .is-focused .form-control {
+    background-image: linear-gradient(to top, var(--colorCal1) 2px, rgba(145, 145, 145, 0) 2px), linear-gradient(to top, #d9f1f2 1px, rgba(210, 210, 210, 0) 1px);
 }
+
+.calendar2 .form-control,
+.calendar2 .is-focused .form-control {
+    background-image: linear-gradient(to top, var(--colorCal2) 2px, rgba(145, 145, 145, 0) 2px), linear-gradient(to top, #f8d3df 1px, rgba(210, 210, 210, 0) 1px);
+}
+
+.calendar3 .form-control,
+.calendar3 .is-focused .form-control {
+    background-image: linear-gradient(to top, var(--colorCal3) 2px, rgba(145, 145, 145, 0) 2px), linear-gradient(to top, #e8e7fe 1px, rgba(210, 210, 210, 0) 1px);
+}
+
+/*.form-control:invalid {
+    background-image: linear-gradient(to top, #f44336 2px, rgba(244, 67, 54, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+}*/
 
 .form-control:read-only {
     background-image: linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
@@ -14388,7 +14376,7 @@ fieldset[disabled] .form-group .form-control {
     position: absolute;
     width: 100%;
     padding: 10px 0;
-    z-index: 4;
+    z-index: 16;
 }
 
 .navbar .navbar-wrapper {
@@ -14410,7 +14398,7 @@ fieldset[disabled] .form-group .form-control {
     align-items: center;
 }
 
-#entitiesCounter {
+#entitiesCounter, .titleCounters {
     background-color: var(--colorGold);
     border-radius: 100px;
     border: 1px solid #FFF;
@@ -15960,7 +15948,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     height: 100%;
     width: 260px;
     background: #fff;
-    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);*/
 }
 
 .sidebar .caret {
@@ -15981,7 +15969,9 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .sidebar .sidebar-wrapper {
     position: relative;
-    height: calc(100% - 92px);
+    height: calc(100% - 72px);
+    padding-bottom: 20px;
+    margin-bottom: 2px;
     width: 260px;
     z-index: 4;
     overflow-y: scroll;
@@ -16177,13 +16167,14 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .sidebar-background {
     position: absolute;
     z-index: 1;
-    height: 100%;
+    height: calc(100% - 71px);
     width: 100%;
     display: block;
-    top: 0;
+    bottom: 0;
     left: 0;
     background-size: cover;
-    background-position: center center;
+    background-position: left center;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar .sidebar-background:after {
@@ -16206,7 +16197,6 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     z-index: 4;
     border-bottom: 1px solid #e7e7e7;
     background-color: #0a0a0a;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar .logo span {
@@ -16454,6 +16444,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     position: absolute;
     bottom: 0;
     left: 0;
+    z-index: 16;
     width: 100%;
     height: 54px;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
@@ -18645,7 +18636,6 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 
 .card .card-body {
     padding: 0.9375rem 20px;
-    position: relative;
 }
 
 .card .card-body .form-group {
@@ -18794,6 +18784,10 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 
 .card [class*="card-header-"] .card-title+.card-category a {
     color: #fff;
+}
+
+.calendars-card [class*="card-header-"] .card-title+.card-category, .calendars-card .card-header .card-title {
+    width: max-content;
 }
 
 .card [class*="card-header-"]:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
@@ -19394,4 +19388,8 @@ server p:hover {
 
 .nav-open .sidebar {
     left: 0px!important;
+}
+
+.card-calendar-icon {
+    display: flex;
 }

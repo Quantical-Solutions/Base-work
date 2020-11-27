@@ -7,6 +7,10 @@ import Request from './xhr.js';
 =============================================================================
  */
 
+window.onresize = function() {
+    resizeCalModalHeaders();
+}
+
 var md = {
     misc: {
         navbar_menu_visible: 0,
@@ -14,15 +18,25 @@ var md = {
         disabled_collapse_init: 0,
     },
 
-    checkSidebarImage: function() {
+    /*checkSidebarImage: function() {
         var $sidebar = $('.sidebar');
         var image_src = $sidebar.data('image');
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.indexOf('safari') != -1) {
+            if (ua.indexOf('chrome') > -1) {
+                // Chrome
+                image_src += '.webp';
+            } else {
+                // Safari
+                image_src += '.jpg';
+            }
+        }
 
         if (image_src !== undefined) {
             var sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>';
             $sidebar.append(sidebar_container);
         }
-    },
+    },*/
 
     showNotification: function(from, align) {
         var type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary'];
@@ -458,31 +472,6 @@ var md = {
         md.startAnimationForBarChart(distriChart);
     },
 
-    initMinimizeSidebar: function() {
-
-        $('#minimizeSidebar').click(function() {
-            var $btn = $(this);
-
-            if (md.misc.sidebar_mini_active == true) {
-                $('body').removeClass('sidebar-mini');
-                md.misc.sidebar_mini_active = false;
-            } else {
-                $('body').addClass('sidebar-mini');
-                md.misc.sidebar_mini_active = true;
-            }
-
-            // we simulate the window Resize so the charts will get updated in realtime.
-            var simulateWindowResize = setInterval(function() {
-                window.dispatchEvent(new Event('resize'));
-            }, 180);
-
-            // we stop the simulation of Window Resize after the animations are completed
-            setTimeout(function() {
-                clearInterval(simulateWindowResize);
-            }, 1000);
-        });
-    },
-
     checkScrollForTransparentNavbar: debounce(function() {
         if ($(document).scrollTop() > 260) {
             if (transparent) {
@@ -496,7 +485,6 @@ var md = {
             }
         }
     }, 17),
-
 
     initRightMenu: debounce(function() {
         var $sidebar_wrapper = $('.sidebar-wrapper');
@@ -529,6 +517,7 @@ var md = {
             window.dispatchEvent(new Event('resize'));
 
             mobile_menu_initialized = true;
+
         } else {
 
             if ($(window).width() > 991) {
@@ -851,14 +840,30 @@ function timeStamper() {
     }
 }
 
+setCKEditor();
+
 function setCKEditor() {
 
-    for(name in CKEDITOR.instances) {
+    /*for(name in CKEDITOR.instances) {
         if (document.querySelector(name)) {
             CKEDITOR.instances[name].destroy(true);
         }
     }
-    CKEDITOR.replaceAll('ckeditor');
+    CKEDITOR.replaceAll('ckeditor');*/
+
+    //"dialogui,dialog,a11yhelp,about,basicstyles,blockquote,notification,button,toolbar,clipboard,panel,floatpanel,menu,contextmenu,elementspath,indent,indentlist,list,enterkey,entities,popup,filetools,filebrowser,floatingspace,listblock,richcombo,format,horizontalrule,htmlwriter,image,fakeobjects,link,magicline,maximize,pastefromword,pastetext,removeformat,resize,menubutton,scayt,showborders,sourcearea,specialchar,stylescombo,tab,table,tabletools,tableselection,undo,lineutils,widgetselection,widget,notificationaggregator,uploadwidget,uploadimage,wsc,wysiwygarea";
+
+    if (document.querySelector('#calendar-modal-container')) {
+
+        //CKEDITOR.config.removePlugins = "about,blockquote,format,specialchar,sourcearea,scayt,wsc,table,tabletools,tableselection,magicline,image,stylescombo,resize,uploadwidget,uploadimage,maximize,floatingspace,magicline,horizontalrule,pastefromword,pastetext,removeformat,undo,contextmenu";
+        CKEDITOR.config.toolbar = [
+            //[ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ],
+            //[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+            //'/',
+            [ 'Bold', 'Italic', 'Link', 'Unlink' ]
+        ];
+        //console.log(CKEDITOR.config);
+    }
 }
 
 function displayErrorConn() {
@@ -871,104 +876,12 @@ function displayErrorConn() {
     }
 }
 
-function getPage(elmt, page, counter = false, game = false) {
-
-    if (document.querySelector('main')) {
-
-        if (document.querySelector('#modale')) { document.querySelector('#closeModal').click(); }
-        document.querySelector('#mainLoader').classList.add('displayLoader');
-        document.querySelector('#overlay').classList.add('displayOverlay');
-        document.querySelector('main').classList.add('mainOverflowHidden');
-        document.querySelector('main').scrollTo(0, 0);
-        var bgs = [
-            'https://cache.quanticalsolutions.com/main/img/adminBGS/bg1.jpg',
-            'https://cache.quanticalsolutions.com/main/img/adminBGS/bg2.jpg',
-            'https://cache.quanticalsolutions.com/main/img/adminBGS/bg3.jpg',
-            'https://cache.quanticalsolutions.com/main/img/adminBGS/bg4.jpg',
-            'https://cache.quanticalsolutions.com/main/img/adminBGS/bg5.jpg',
-            'https://cache.quanticalsolutions.com/main/img/adminBGS/bg6.jpg'
-        ];
-        var random = bgs[Math.floor(Math.random() * bgs.length)];
-        var transitionBlocks = document.querySelectorAll('.loaderDiv');
-        for (var i = 0; i < transitionBlocks.length; i++) {
-            transitionBlocks[i].style.backgroundImage = 'url("' + random + '")'
-        }
-        var title = elmt.textContent;
-        var links = document.querySelectorAll('.ajax');
-        for (var i = 0; i < links.length; i++) {
-            links[i].classList.remove('hoverSpan');
-            links[i].closest('.nav-item').classList.remove('active');
-        }
-        if (elmt.tagName != 'DIV') {
-            elmt.classList.add('hoverSpan');
-            elmt.closest('.nav-item').classList.add('active');
-        }
-
-        setTimeout(function(){
-
-            $(document).ready(function () {
-
-                $.post('/admin/request', {'xhr2': 'pages', 'page': page, 'title': title}, function (data, status) {
-
-                    if (status == 'success') {
-
-                        document.querySelector('#pageReplacer').innerHTML = data;
-                        var pagi = document.querySelector('#mainPaginer');
-                        if (pagi) {
-                            div = document.createElement('DIV');
-                            div.setAttribute('class', 'paginer');
-                            div.setAttribute('id', 'bottomPaginer');
-                            div.innerHTML = pagi.innerHTML;
-                            pagi.parentElement.appendChild(div);
-                        }
-
-                        var cnt = (counter != false && document.querySelector('#mainTable').dataset.count) ? '<span' +
-                            ' class="counter">' + document.querySelector('#mainTable').dataset.count + '</span>' : '';
-
-                        document.querySelector('.navbar-brand').classList.add('hideTitle');
-                        setTimeout(function(){
-                            document.querySelector('.navbar-brand').innerHTML = elmt.querySelector('p').innerHTML + cnt;
-                            document.querySelector('.navbar-brand').classList.remove('hideTitle');
-                        }, 250);
-
-                        setTimeout(function(){
-                            document.querySelector('#mainLoader').classList.add('displayLoaderOut');
-                        }, 1000);
-                        setTimeout(function(){
-                            document.querySelector('#mainLoader').classList.remove('displayLoader');
-                        }, 1050);
-                        setTimeout(function(){
-                            document.querySelector('#overlay').classList.remove('displayOverlay');
-                        }, 2200);
-                        setTimeout(function(){
-                            document.querySelector('#mainLoader').classList.remove('displayLoaderOut');
-                            document.querySelector('main').classList.remove('mainOverflowHidden');
-                        }, 2500);
-
-                        document.querySelector('main').scrollTo(0, 0);
-                        initFirstLoad();
-                        if (document.querySelector('#statsPage')) {
-                            md.initDashboardPageCharts('2020');
-                        }
-
-                    } else {
-
-                        document.querySelector('#pageReplacer').innerHTML = 'Erreur de chargement de la page...';
-                        document.querySelector('#mainLoader').classList.remove('displayLoader');
-                    }
-                });
-            });
-        }, 1250);
-    }
-}
-
 function initFirstLoad() {
 
-    setCKEditor();
     initMediaSize();
     if (document.querySelector('#modeleTemplate')) {
 
-        var option = document.querySelectorAll('#modéleTemplate option');
+        var option = document.querySelectorAll('#modeleTemplate option');
     }
 }
 
@@ -1160,134 +1073,6 @@ function igniteDashboard() {
 
         var window_width = $(window).width();
 
-        var fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-            if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-                $('.fixed-plugin .dropdown').addClass('open');
-            }
-
-        }
-
-        $('.fixed-plugin a').click(function(event) {
-            // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-            if ($(this).hasClass('switch-trigger')) {
-                if (event.stopPropagation) {
-                    event.stopPropagation();
-                } else if (window.event) {
-                    window.event.cancelBubble = true;
-                }
-            }
-        });
-
-        $('.fixed-plugin .active-color span').click(function() {
-            $full_page_background = $('.full-page-background');
-
-            $counter = $('.counter');
-
-            $(this).siblings().removeClass('active');
-            $(this).addClass('active');
-
-            var new_color = $(this).data('color');
-
-            if ($sidebar.length != 0) {
-                $sidebar.attr('data-color', new_color);
-            }
-
-            if ($full_page.length != 0) {
-                $full_page.attr('filter-color', new_color);
-            }
-
-            if ($sidebar_responsive.length != 0) {
-                $sidebar_responsive.attr('data-color', new_color);
-            }
-
-            if ($counter.length != 0) {
-                $counter.attr('data-color', new_color);
-            }
-        });
-
-        $('.fixed-plugin .background-color .badge').click(function() {
-            $(this).siblings().removeClass('active');
-            $(this).addClass('active');
-
-            var new_color = $(this).data('background-color');
-
-            if ($sidebar.length != 0) {
-                $sidebar.attr('data-background-color', new_color);
-            }
-        });
-
-        $('.fixed-plugin .img-holder').click(function() {
-            $full_page_background = $('.full-page-background');
-
-            $(this).parent('li').siblings().removeClass('active');
-            $(this).parent('li').addClass('active');
-
-
-            var new_image = $(this).find("img").attr('src');
-
-            if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-                $sidebar_img_container.fadeOut('fast', function() {
-                    $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-                    $sidebar_img_container.fadeIn('fast');
-                });
-            }
-
-            if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-                var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-                $full_page_background.fadeOut('fast', function() {
-                    $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-                    $full_page_background.fadeIn('fast');
-                });
-            }
-
-            if ($('.switch-sidebar-image input:checked').length == 0) {
-                var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
-                var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-                $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-                $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-            }
-
-            if ($sidebar_responsive.length != 0) {
-                $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
-            }
-        });
-
-        $('.switch-sidebar-image input').change(function() {
-            $full_page_background = $('.full-page-background');
-
-            $input = $(this);
-
-            if ($input.is(':checked')) {
-                if ($sidebar_img_container.length != 0) {
-                    $sidebar_img_container.fadeIn('fast');
-                    $sidebar.attr('data-image', '#');
-                }
-
-                if ($full_page_background.length != 0) {
-                    $full_page_background.fadeIn('fast');
-                    $full_page.attr('data-image', '#');
-                }
-
-                background_image = true;
-            } else {
-                if ($sidebar_img_container.length != 0) {
-                    $sidebar.removeAttr('data-image');
-                    $sidebar_img_container.fadeOut('fast');
-                }
-
-                if ($full_page_background.length != 0) {
-                    $full_page.removeAttr('data-image', '#');
-                    $full_page_background.fadeOut('fast');
-                }
-
-                background_image = false;
-            }
-        });
-
         $('.switch-sidebar-mini input').change(function() {
             $body = $('body');
 
@@ -1443,7 +1228,7 @@ $(document).ready(function() {
         var window_width = $(window).width();
 
         // check if there is an image set for the sidebar's background
-        md.checkSidebarImage();
+        //md.checkSidebarImage();
 
         //    Activate bootstrap-select
         if ($(".selectpicker").length != 0) {
@@ -1476,15 +1261,13 @@ $(document).on('click', '.navbar-toggler', function() {
         $('html').removeClass('nav-open');
 
         $('.close-layer').remove();
-        setTimeout(function() {
-            $toggle.removeClass('toggled');
-        }, 400);
+        $toggle.removeClass('toggled');
 
         mobile_menu_visible = 0;
     } else {
         setTimeout(function() {
             $toggle.addClass('toggled');
-        }, 430);
+        }, 30);
 
         var $layer = $('<div class="close-layer"></div>');
 
@@ -1504,12 +1287,8 @@ $(document).on('click', '.navbar-toggler', function() {
             mobile_menu_visible = 0;
 
             $layer.removeClass('visible');
-
-            setTimeout(function() {
-                $layer.remove();
-                $toggle.removeClass('toggled');
-
-            }, 400);
+            $layer.remove();
+            $toggle.removeClass('toggled');
         });
 
         $('html').addClass('nav-open');
@@ -1600,9 +1379,11 @@ for (var i = 0; i < tables.length; i++) {
 }
 
 $(document).ready(function(){
-    document.querySelector('#mainLoader').classList.remove('displayLoader');
-    document.querySelector('#pageReplacer').classList.add('displayCard');
-    paginater();
+    if (document.querySelector('#mainLoader')) {
+        document.querySelector('#mainLoader').classList.remove('displayLoader');
+        document.querySelector('#pageReplacer').classList.add('displayCard');
+        paginater();
+    }
 });
 
 function paginater() {
@@ -1645,10 +1426,10 @@ function paginater() {
                     var target = ev.currentTarget,
                         value = target.value * 10,
                         start = value - 10;
-                    console.log(start);
-                    console.log(value);
+
                     var scrudCard = document.querySelector('.scrudCard');
                     var trz = scrudCard.querySelectorAll('tBody tr');
+
                     for (var j = 0; j < trz.length; j++) {
                         trz[j].classList.remove('trVisible');
                     }
@@ -1757,4 +1538,1051 @@ $(document).ready(function(){
 
     igniteSearchInputs();
     deleteRowScrud();
+    resizeCalModalHeaders();
 });
+
+/*var ua = navigator.userAgent.toLowerCase();
+if (ua.indexOf('safari') != -1) {
+    if (ua.indexOf('chrome') > -1) {
+        // Chrome
+    } else {
+        // Safari
+        document.body.style.backgroundImage = 'url("/media/img/adminBG.jpg")';
+    }
+}*/
+
+buildCalendar('clients', 1);
+buildCalendar('formations', 2);
+buildCalendar('interventions', 3);
+
+function buildCalendar(type, id) {
+
+    if (document.querySelector('#calendar' + id)) {
+
+        var allEvents = [];
+
+        if (typeof getCalendars !== 'undefined') {
+
+            if (type == 'clients') {
+                allEvents = getCalendars.clients;
+            } else if (type == 'formations') {
+                allEvents = getCalendars.formations;
+            } else if (type == 'interventions') {
+                allEvents = getCalendars.interventions;
+            }
+        }
+
+        document.querySelector('#calendar' + id).innerHTML = '';
+
+        var Calendar = FullCalendar.Calendar,
+            //Draggable = FullCalendarInteraction.Draggable,
+            calendarEl = document.querySelector('#calendar' + id);
+
+        var calendar = new Calendar(calendarEl, {
+
+            plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+            locale: 'fr',
+            firstDay: 1,
+            defaultView: 'timeGridWeek',
+            allDaySlot: false,
+            views: {
+
+                timeGridWeek: { // name of view
+                    titleFormat: {month: 'long', day: '2-digit'}
+                },
+                dayGridMonth: { // name of view
+                    titleFormat: {month: 'long', year: 'numeric'}
+                    // other view-specific options here
+                }
+            },
+            header: {
+                left: 'prev,title,next',
+                center: 'today',
+                right: 'timeGridWeek, dayGridMonth'
+            },
+            //hiddenDays : [0, 6],
+            weekNumbers: true,
+            navLinks: true, // can click day/week names to navigate views
+            editable: false,
+            selectable: false,
+            dragScroll: false,
+            droppable: false, // this allows things to be dropped onto the calendar
+            eventLimit: false, // allow "more" link when too many events
+            nowIndicator: true,
+            events: allEvents,
+            eventOverlap: function (stillEvent, movingEvent) {
+                return stillEvent.allDay && movingEvent.allDay;
+            },
+            eventClick: function (info) {
+                //console.log(info.el);
+                var data = info.event._def.extendedProps;
+
+                console.log(data);
+            },
+            dayRender: function (info) {
+                addNewFunctions(info, id);
+                var btns = document.querySelector('#calendar' + id).querySelectorAll('.fc-right button');
+                for (var i = 0; i < btns.length; i++) {
+
+                    var btn = btns[i];
+                    btn.title = (i == 0) ? 'Semaine' : 'Mois';
+                    btn.innerHTML = (i == 0) ? 'S' : 'M';
+                }
+            },
+            eventRender: function(info) {
+
+                /*var tooltip = new Tooltip(info.el, {
+                    title: (info.event.extendedProps.description) ? info.event.extendedProps.description : info.event.title,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });*/
+                //eventsProcesser(info, tooltip, events);
+            },
+            timeFormat: 'HH:mm',
+            allDaySlot: false,
+            allDayText: 'all-day',
+            axisFormat: 'HH:mm',
+            slotDuration: '00:30:00',
+            snapDuration: '00:30:00',
+            scrollTime: '06:00:00',
+            minTime: '06:00:00',
+            maxTime: '24:00:00',
+            slotEventOverlap: false,
+            dayMinWidth: 2,
+            dayHeaderFormat: { weekday: 'long', month: 'numeric', day: 'numeric', omitCommas: false }
+        });
+        calendar.render();
+        var rdv = document.querySelector('#calendar' + id).closest('.calendars-card').querySelector('.newRdv');
+        rdv.onclick = function(ev) {
+            var target = ev.currentTarget,
+                type = target.dataset.type;
+            newRdv(type, id);
+        }
+    }
+}
+
+function addNewFunctions(info, color) {
+
+    var type = info.view.type,
+        daysArray = {"lun.":"Lundi", "mar.":"Mardi", "mer.":"Mercredi", "jeu.":"Jeudi", "ven.":"Vendredi", "sam.":"Samedi", "dim.":"Dimanche"},
+        months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        newDate = new Date(info.date),
+        fcDate = new Date(newDate.setDate(newDate.getDate() + 1)).toISOString(),
+        table = document.querySelector('.fc-slats tbody');
+
+    if (type == 'timeGridWeek') {
+
+        var addLastTime = document.createElement('tr');
+        addLastTime.innerHTML = '<td class="addCustom fc-axis fc-time fc-widget-content"><span>00:00</span></td>';
+
+        var axis = document.querySelectorAll('.fc-axis span'),
+            today = new Date(),
+            checkToday = ('0' + (parseInt(today.getMonth()) + 1)).slice(-2) + '/' + ('0' + today.getDate()).slice(-2),
+            days = document.querySelectorAll('a[data-goto]');
+
+        for (var i = 0; i < days.length; i++) {
+
+            var day = days[i];
+            day.removeAttribute('data-goto');
+            day.classList.add('custom-fc-title');
+
+            var d = day.innerHTML.split(' ')[0],
+                da = day.innerHTML.split(' ')[1],
+                theDay = da.split('/')[0],
+                theMonth = parseInt(da.split('/')[1]) - 1;
+
+            for (var dKey in daysArray) {
+
+                if (dKey == d) {
+
+                    var colorize = 'colorCal' + color,
+                        ref = (theMonth + 1) + '/' + theDay,
+                        classe = (ref == checkToday) ? colorize : '';
+
+                    day.innerHTML = '<span class="' + classe + '">' + daysArray[dKey] + '</span>';
+                    day.innerHTML += '<span class="' + classe + '">' + theDay + ' ' + months[theMonth] + '</span>';
+
+                    var span = document.createElement('div');
+                    span.setAttribute('class', 'overlayWeek');
+                    span.onclick = function (ev) {
+                        var target = ev.currentTarget,
+                            parent = target.parentElement,
+                            dataDate = parent.dataset.date,
+                            all = document.querySelectorAll('.custom-fc-title');
+
+                        for (let j = 0; j < all.length; j++) {
+
+                            all[j].parentElement.classList.remove('fc-touched');
+                        }
+
+                        target.parentElement.classList.add('fc-touched');
+
+                        document.querySelector('#mainLoader').classList.add('displayLoader');
+
+                        console.log(dataDate);
+                    }
+                    day.parentElement.appendChild(span);
+                }
+            }
+        }
+
+        for (var i = 0; i < axis.length; i++) {
+            var axe = axis[i];
+            axe.innerHTML = axe.innerHTML.replace(' h', ':00');
+        }
+
+        if (!document.querySelector('.addCustom')) {
+            table.appendChild(addLastTime);
+        }
+
+    } else if (type == 'dayGridMonth') {
+
+        var today = new Date(),
+            checkToday = ('0' + (parseInt(today.getMonth()) + 1)).slice(-2) + '/' + ('0' + today.getDate()).slice(-2),
+            daysHead = document.querySelectorAll('.fc-day-header span');
+
+        for (var i = 0; i < daysHead.length; i++) {
+
+            var day = daysHead[i],
+                parent = day.parentElement,
+                trucatedDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            for (var dKey in daysArray) {
+
+                if (dKey == day.innerHTML) {
+
+                    var colorize = 'colorCal' + color,
+                        t = new Date(),
+                        today = parseInt(t.getDay()),
+                        classe = (daysArray[dKey] == trucatedDays[today]) ? colorize : '';
+
+                    parent.innerHTML = '<span class="' + classe + '">' + daysArray[dKey] + '</span>';
+
+                    var span = document.createElement('div');
+                    span.setAttribute('class', 'overlayWeek');
+                    span.onclick = function (ev) {
+                        var target = ev.currentTarget,
+                            parent = target.parentElement,
+                            dataDate = parent.dataset.date,
+                            all = document.querySelectorAll('.custom-fc-title');
+
+                        for (let j = 0; j < all.length; j++) {
+
+                            all[j].parentElement.classList.remove('fc-touched');
+                        }
+
+                        target.parentElement.classList.add('fc-touched');
+
+                        document.querySelector('#mainLoader').classList.add('displayLoader');
+
+                        console.log(dataDate);
+                    }
+                    //day.parentElement.appendChild(day);
+                }
+            }
+        }
+        var days = document.querySelectorAll('a[data-goto]');
+
+        for (var i = 0; i < days.length; i++) {
+
+            var day = days[i];
+            day.removeAttribute('data-goto');
+            day.classList.add('custom-fc-title');
+        }
+    }
+}
+
+function newRdv(type, id, content = false) {
+
+    var modal = document.querySelector('#calendar-modal');
+    modal.classList.add('displayCalendarModal');
+    modal.classList.add('calendar' + id);
+    document.querySelector('#calendar-modal-cross-close').dataset.class = 'calendar' + id;
+    setCOlorAttribute();
+    igniteCalendarsNotifications();
+    igniteAddressSearch();
+    resetCalModal();
+}
+
+var calendarModalCrossClose = document.querySelector('#calendar-modal-cross-close');
+if (calendarModalCrossClose) {
+    calendarModalCrossClose.onclick = function(ev) {
+        var target = ev.currentTarget,
+            classe = target.dataset.class,
+            modal = target.closest('#calendar-modal');
+        modal.classList.remove('displayCalendarModal');
+        modal.classList.remove(classe);
+        target.dataset.class = '';
+    }
+}
+
+var checkmarks = document.querySelectorAll('.checkmark');
+for (var i = 0; i < checkmarks.length; i++) {
+    checkmarks[i].onclick = function(ev) {
+        var target = ev.currentTarget,
+            input = target.parentElement.querySelector('input[type="checkbox"]');
+
+        if (target.parentElement.classList.contains('checked')) {
+
+            target.parentElement.classList.remove('checked');
+            input.checked = false;
+
+            if (input.name == 'all_day') {
+
+                var inputsTime = document.querySelectorAll('.sub-sup-left-side input[type="time"]');
+                for (var j = 0; j < inputsTime.length; j++) {
+                    inputsTime[j].parentElement.style.display = 'block';
+                }
+            }
+
+        } else {
+
+            target.parentElement.classList.add('checked');
+            input.checked = true;
+
+            if (input.name == 'all_day') {
+
+                var inputsTime = document.querySelectorAll('.sub-sup-left-side input[type="time"]');
+                for (var j = 0; j < inputsTime.length; j++) {
+                    inputsTime[j].parentElement.style.display = 'none';
+                    var date = new Date();
+                    var time = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+                    if (j == 0) {
+                        inputsTime[j].value = time;
+                    }
+                    if (j == 1) {
+                        inputsTime[j].value = '00:00';
+                    }
+                }
+            }
+        }
+    }
+}
+
+igniteSelectors();
+
+function igniteSelectors() {
+
+    var selector = document.querySelectorAll('.selector');
+    for (var i = 0; i < selector.length; i++) {
+
+        var label = selector[i].querySelector('.label'),
+            lis = selector[i].querySelectorAll('li');
+
+        label.onclick = function (ev) {
+
+            var target = ev.currentTarget,
+                ul = target.nextElementSibling;
+
+            if (ul.classList.contains('displaySelectorUl')) {
+
+                ul.classList.remove('displaySelectorUl');
+
+            } else {
+
+                ul.classList.add('displaySelectorUl');
+            }
+        }
+        for (var j = 0; j < lis.length; j++) {
+
+            lis[j].onclick = function (ev) {
+
+                var target = ev.currentTarget,
+                    input = target.parentElement.previousElementSibling.querySelector('input'),
+                    p = target.parentElement.previousElementSibling.querySelector('p'),
+                    liss = target.parentElement.children,
+                    ul = target.parentElement,
+                    value = target.dataset.value;
+
+                for (var k = 0; k < liss.length; k++) {
+
+                    liss[k].classList.remove('displaySelectorLi');
+                }
+
+                if (target.classList.contains('custom-div-open')) {
+
+                    p.innerHTML = target.innerHTML;
+                    ul.classList.remove('displaySelectorUl');
+                    customCalOccurrences(ul);
+
+                } else {
+
+                    target.classList.add('displaySelectorLi');
+                    input.value = value;
+                    p.innerHTML = target.innerHTML;
+                    ul.classList.remove('displaySelectorUl');
+                }
+            }
+        }
+    }
+}
+
+function customCalOccurrences(ul) {
+
+    var customOccurrences = document.querySelector('#custom-occurrences-container');
+    customOccurrences.classList.add('displayCustomOccurencesContainer');
+}
+
+var cancelCalCustom = document.querySelector('#cancel-cal-custom');
+if (cancelCalCustom) {
+    cancelCalCustom.onclick = function(ev) {
+        var target = ev.currentTarget,
+            modal = document.querySelector('#custom-occurrences-container');
+        modal.classList.remove('displayCustomOccurencesContainer');
+    }
+}
+
+var radioDiv = document.querySelectorAll('.radio-div');
+if (radioDiv) {
+    for (let i = 0; i < radioDiv.length; i++) {
+        radioDiv[i].onclick = function() {
+            var parent = radioDiv[i],
+                master = parent.parentElement,
+                input = parent.querySelector('input[type="radio"]'),
+                circle = parent.querySelector('.radio-plain'),
+                circles = master.querySelectorAll('.radio-plain');
+            for (let j = 0; j < circles.length; j++) {
+                circles[j].classList.remove('plained');
+                var parenter = circles[j].closest('.radio-div');
+                if (parenter && parenter.classList.contains('occurrences-radio')) {
+                    parenter.closest('.radio-div').classList.add('opacity');
+                }
+            }
+            input.checked = true;
+            circle.classList.add('plained');
+
+            if (input.name == 'occurrences_custom_end') {
+
+                parent.classList.remove('opacity');
+            }
+        }
+    }
+}
+
+var inputNumber = document.querySelectorAll('input[type="number"]');
+for (var i = 0; i < inputNumber.length; i++) {
+
+    inputNumber[i].oninput = function(ev) {
+
+        var target = ev.currentTarget;
+
+        if (target.name == 'occurrences_custom_number') {
+
+            if (parseInt(target.value) > 0) {
+
+                document.querySelector('#validate-cal-custom').disabled = false;
+            } else {
+                document.querySelector('#validate-cal-custom').disabled = true;
+            }
+        }
+    }
+
+    if (inputNumber[i].name == 'occurrences_custom_number') {
+
+        if (parseInt(inputNumber[i].value) > 0) {
+            document.querySelector('#validate-cal-custom').disabled = false;
+        } else {
+            document.querySelector('#validate-cal-custom').disabled = true;
+        }
+    }
+}
+
+var calSelDays = document.querySelectorAll('.cal-sel-days');
+for (var i = 0; i < calSelDays.length; i++) {
+
+    var today = (new Date()).getDay(),
+        inputCheck = calSelDays[i].querySelector('input[type="checkbox"]'),
+        alls = calSelDays[i].parentElement.children,
+        checker = 0;
+
+    for (var j = 0; j < alls.length; j++) {
+        if (alls[j].querySelector('input[type="checkbox"]').checked == true) {
+            checker++;
+        }
+    }
+
+    calSelDays[i].onclick = function(ev) {
+
+        var target = ev.currentTarget,
+            input = target.querySelector('input[type="checkbox"]'),
+            check = 0,
+            all = target.parentElement.children;
+
+        if (target.classList.contains('selected-cal-sel-days')) {
+
+            target.classList.remove('selected-cal-sel-days');
+            input.checked = false;
+
+        } else {
+
+            target.classList.add('selected-cal-sel-days');
+            input.checked = true;
+        }
+
+        for (var j = 0; j < all.length; j++) {
+            if (all[j].classList.contains('selected-cal-sel-days')) {
+                check++;
+            }
+        }
+
+        if (check == 0) {
+
+            var d = new Date(),
+                day = d.getDay();
+
+            for (var j = 0; j < all.length; j++) {
+
+                var checkBox = all[j].querySelector('input[type="checkbox"]');
+                if (checkBox.value == day) {
+
+                    all[j].click();
+                    break;
+                }
+            }
+        }
+    }
+
+    if (checker == 0 && today == inputCheck.value) {
+
+        calSelDays[i].click();
+    }
+}
+
+function resizeCalModalHeaders() {
+
+    if (document.querySelector('#top-cal-modal-left')) {
+
+        var left = document.querySelector('#top-cal-modal-left'),
+            right = document.querySelector('#top-cal-modal-right'),
+            leftHeight = left.scrollHeight;
+
+        if (window.innerWidth > 991) {
+
+            right.style.height = leftHeight + 'px';
+
+        } else {
+
+            right.style.height = 'unset';
+        }
+    }
+}
+
+function setCOlorAttribute(content = false) {
+
+    var inputColors = document.querySelector('#color-cal-modal');
+    if (inputColors) {
+
+        var li = inputColors.querySelector('ul').children[0],
+            lis = inputColors.querySelector('ul').children,
+            p = inputColors.querySelector('.label p'),
+            input = inputColors.querySelector('.label input[type="hidden"]'),
+            parent = document.querySelector('#calendar-modal');
+
+        if (parent.classList.contains('calendar1')) {
+            li.querySelector('span').style.backgroundColor = '#40b5bc';
+            li.dataset.value = '#40b5bc';
+        } else if (parent.classList.contains('calendar2')) {
+            li.querySelector('span').style.backgroundColor = '#b31d4d';
+            li.dataset.value = '#b31d4d';
+        } else if (parent.classList.contains('calendar3')) {
+            li.querySelector('span').style.backgroundColor = '#483df6';
+            li.dataset.value = '#483df6';
+        }
+
+        if (content != false) {
+
+            for (var i = 0; i < lis.length; i++) {
+
+                var l = lis[i];
+                if (l.classList.contains('displaySelectorLi')) {
+                    p.innerHTML = l.innerHTML;
+                    input.value = l.dataset.value;
+                }
+            }
+
+        } else {
+
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].classList.remove('displaySelectorLi');
+            }
+
+            li.classList.add('displaySelectorLi');
+            p.innerHTML = li.innerHTML;
+            input.value = li.dataset.value;
+        }
+    }
+}
+
+var addNotifBtn = document.querySelector('#add-notif-btn');
+if (addNotifBtn) {
+    addNotifBtn.onclick = function(ev) {
+        var target = ev.currentTarget,
+            check = document.querySelector('#original-notifs-div'),
+            original = document.createElement('div'),
+            replace = document.querySelector('#other-notifs-div');
+        original.setAttribute('class', 'notifs-div');
+        original.innerHTML = check.innerHTML;
+        replace.appendChild(original);
+        deleteNotifBtn();
+        igniteSelectors();
+    }
+}
+
+function igniteCalendarsNotifications() {
+
+    if (document.querySelector('#original-notifs-div')) {
+
+        var check = document.querySelector('#original-notifs-div'),
+            json = check.dataset.notifs,
+            data = false,
+            original = document.createElement('div'),
+            replace = document.querySelector('#other-notifs-div');
+        original.setAttribute('class', 'notifs-div');
+        original.innerHTML = check.innerHTML;
+
+        if (json != '' && isJson(json)) {
+            data = JSON.parse(json);
+        }
+
+        if (data == false) {
+
+            replace.innerHTML = '';
+            replace.appendChild(original);
+
+        } else {
+
+            //...
+        }
+
+        deleteNotifBtn();
+        igniteSelectors();
+    }
+}
+
+function deleteNotifBtn() {
+
+    var btns = document.querySelectorAll('.notifs-div>.calendar-modal-pictos');
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].onclick = function(ev) {
+            var target = ev.currentTarget,
+                div = target.parentElement,
+                parent = div.parentElement;
+            parent.removeChild(div);
+        }
+    }
+}
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+/*var addLocationCal = document.querySelector('#address-input');
+if (addLocationCal) {
+
+    addLocationCal.onkeyup = function (ev) {
+
+        var target = ev.currentTarget,
+            value = target.value;
+        console.log(value);
+    }
+}*/
+
+var addGuestsCal = document.querySelector('#add-guests-cal');
+if (addGuestsCal) {
+
+    addGuestsCal.onkeyup = function (ev) {
+
+        var target = ev.currentTarget,
+            value = target.value.toUpperCase(),
+            ul = document.querySelector('#emails-cal-results'),
+            lis = ul.children,
+            check = 0;
+
+        if (value.trim().length > 0) {
+
+            for (var i = 0; i < lis.length; i++) {
+
+                var li = lis[i],
+                    p = li.querySelector('p'),
+                    text = p.textContent.toUpperCase() || p.innerText.toUpperCase();
+
+                if (li.id != 'organisateur-cal') {
+
+                    if (text.indexOf(value) > -1) {
+
+                        li.style.display = 'flex';
+
+                    } else {
+
+                        li.style.display = 'none';
+                    }
+                }
+            }
+
+            if (ev.code == 'Enter') {
+
+                for (var i = 0; i < lis.length; i++) {
+
+                    if (!lis[i].classList.contains('hideGuestFromOriginalList') && lis[i].querySelector('p').innerHTML.trim() == target.value.trim() && emailIsValid(target.value.trim())) {
+
+                        addGuestRow(lis[i]);
+                        target.value = '';
+                        check = 1;
+                        break;
+                    }
+                }
+
+                if (check == 0) {
+
+                    var results = document.querySelector('#guest-list-inputs').children,
+                        checker = 0;
+                    for (var i = 0; i < results.length; i++) {
+
+                        var pp = results[i].querySelector('p').innerHTML;
+                        if (pp == target.value.trim()) {
+                            checker = 1;
+                        }
+                    }
+
+                    if (checker == 0 && emailIsValid(target.value.trim())) {
+
+                        var div = document.createElement('div'),
+                            parent = document.querySelector('#guest-list-inputs'),
+                            content = '<input type="hidden" name="guests[]" value="' + target.value.trim() + '">' +
+                                '<div class="preview-email-avatar bg-cal">' + target.value.trim().slice(0, 1).toUpperCase() + '</div>' +
+                                '<div>' +
+                                '<p>' + target.value.trim() + '</p>' +
+                                '<div class="smallers">' +
+                                '<small class="color-cal">Inconnu</small>' +
+                                '&nbsp;-&nbsp;' +
+                                '<small class="deleteGuest">Supprimer</small>' +
+                                '</div>' +
+                                '</div>';
+                        div.setAttribute('class', 'guest-item');
+                        div.innerHTML = content;
+                        parent.appendChild(div);
+                        target.value = '';
+                    }
+
+                }
+                igniteDeletersCal();
+                trackGuestListChildren();
+            }
+
+            ul.classList.remove('displayEmailsCalResults');
+
+            for (var i = 0; i < lis.length; i++) {
+
+                if (lis[i].style.display == 'flex') {
+
+                    ul.classList.add('displayEmailsCalResults');
+                    break;
+                }
+            }
+
+        } else {
+
+            for (var i = 0; i < lis.length; i++) {
+
+                var li = lis[i];
+                li.style.display = 'flex';
+            }
+
+            ul.classList.remove('displayEmailsCalResults');
+        }
+    }
+}
+
+function emailIsValid(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+var gestToList = document.querySelectorAll('#emails-cal-results li');
+for (var i = 0; i < gestToList.length; i++) {
+    gestToList[i].onclick = function (ev) {
+        var target = ev.currentTarget;
+        addGuestRow(target);
+    }
+}
+
+function addGuestRow(target) {
+
+    var email = target.querySelector('p').innerHTML,
+        role = target.querySelector('small').innerHTML,
+        gestList = document.querySelector('#guest-list-inputs'),
+        div = document.createElement('div'),
+        content = '';
+    div.setAttribute('class', 'guest-item');
+    content += '<input type="hidden" name="guests[]" value="' + email + '">';
+    content += target.innerHTML.split('</small>')[0];
+    content += (role != 'Organisateur') ? '</small>&nbsp;-&nbsp;<small class="deleteGuest">Supprimer</small></div></div>' : '</small></div></div>';
+    div.innerHTML = content;
+    gestList.appendChild(div);
+    target.classList.add('hideGuestFromOriginalList');
+    igniteDeletersCal();
+    trackGuestListChildren();
+}
+
+function trackGuestListChildren() {
+
+    var container = document.querySelector('#guest-list-inputs'),
+        children = container.children;
+    if (children.length > 1) {
+        container.classList.add('displayGuestsList');
+    } else {
+        container.classList.remove('displayGuestsList');
+    }
+}
+
+function igniteDeletersCal() {
+
+    var deleteGuest = document.querySelectorAll('.deleteGuest');
+    for (var i = 0; i < deleteGuest.length; i++) {
+
+        deleteGuest[i].onclick = function (ev) {
+
+            var target = ev.currentTarget,
+                div = target.closest('.guest-item'),
+                parent = div.parentElement,
+                p = div.querySelector('p'),
+                email = p.textContent,
+                ul = document.querySelector('#emails-cal-results'),
+                lis = ul.children;
+
+            for (var j = 0; j < lis.length; j++) {
+
+                if (lis[j].querySelector('p').textContent == email) {
+
+                    lis[j].classList.remove('hideGuestFromOriginalList');
+                }
+            }
+            parent.removeChild(div);
+            trackGuestListChildren();
+        }
+    }
+}
+
+function igniteAddressSearch() {
+
+    document.querySelector('#map-example-container').innerHTML = '';
+    var mapper = document.createElement('div');
+    mapper.setAttribute('id', 'map-container');
+    document.querySelector('#map-example-container').appendChild(mapper);
+
+    if (document.querySelector('#address-input')) {
+
+        var placesAutocomplete = places({
+            appId: 'pl42A7CXNTWL',
+            apiKey: 'cf70ac44c7190e01721af2a584d3e7f7',
+            container: document.querySelector('#address-input')
+        });
+
+        var map = L.map('map-container', {
+            scrollWheelZoom: false,
+            zoomControl: false
+        });
+
+        var osmLayer = new L.TileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                minZoom: 1,
+                maxZoom: 13,
+                attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+            }
+        );
+
+        var markers = [];
+
+        map.setView(new L.LatLng(0, 0), 1);
+        map.addLayer(osmLayer);
+
+        placesAutocomplete.on('suggestions', handleOnSuggestions);
+        placesAutocomplete.on('cursorchanged', handleOnCursorchanged);
+        placesAutocomplete.on('change', handleOnChange);
+        placesAutocomplete.on('clear', handleOnClear);
+
+        function handleOnSuggestions(e) {
+            markers.forEach(removeMarker);
+            markers = [];
+
+            if (e.suggestions.length === 0) {
+                map.setView(new L.LatLng(0, 0), 1);
+                return;
+            }
+
+            e.suggestions.forEach(addMarker);
+            findBestZoom();
+        }
+
+        function handleOnChange(e) {
+            markers
+                .forEach(function(marker, markerIndex) {
+                    if (markerIndex === e.suggestionIndex) {
+                        markers = [marker];
+                        marker.setOpacity(1);
+                        findBestZoom();
+                    } else {
+                        removeMarker(marker);
+                    }
+                });
+        }
+
+        function handleOnClear() {
+            map.setView(new L.LatLng(0, 0), 1);
+            markers.forEach(removeMarker);
+        }
+
+        function handleOnCursorchanged(e) {
+            markers
+                .forEach(function(marker, markerIndex) {
+                    if (markerIndex === e.suggestionIndex) {
+                        marker.setOpacity(1);
+                        marker.setZIndexOffset(1000);
+                    } else {
+                        marker.setZIndexOffset(0);
+                        marker.setOpacity(0.5);
+                    }
+                });
+        }
+
+        function addMarker(suggestion) {
+            var marker = L.marker(suggestion.latlng, {opacity: .4});
+            document.querySelector('#longitude-cal').value = suggestion.latlng.lng;
+            document.querySelector('#latitude-cal').value = suggestion.latlng.lat;
+            marker.addTo(map);
+            markers.push(marker);
+        }
+
+        function removeMarker(marker) {
+            map.removeLayer(marker);
+        }
+
+        function findBestZoom() {
+            var featureGroup = L.featureGroup(markers);
+            map.fitBounds(featureGroup.getBounds().pad(0.5), {animate: false});
+        }
+    }
+}
+
+var addConf = document.querySelector('#add-conf');
+if (addConf) {
+
+    addConf.onclick = function (ev) {
+        var target = ev.currentTarget,
+            json = {};
+
+        Request('visio', json);
+    }
+}
+
+var copyVisio = document.querySelector('#room-url div');
+if (copyVisio) {
+
+    copyVisio.onclick = function (ev) {
+        var target = ev.currentTarget,
+            modal = document.querySelector('#copy-to-clipboard'),
+            copyText = document.querySelector('#room-url input');
+
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+        modal.classList.add('displayCopy');
+
+        setTimeout(function(){
+            modal.classList.remove('displayCopy');
+        }, 3000);
+    }
+}
+
+var deleteCalVisio = document.querySelector('#delete-cal-visio');
+if (deleteCalVisio) {
+    deleteCalVisio.onclick = function (ev) {
+        var target = ev.currentTarget,
+            addConf = document.querySelector('#add-conf'),
+            setConf = document.querySelector('#go-to-conf'),
+            div = document.querySelector('#room-url');
+
+        setConf.querySelector('input').value = '';
+        setConf.querySelector('a').href = '';
+        addConf.style.display = 'flex';
+        setConf.style.display = 'none';
+        div.style.display = 'none';
+    }
+}
+
+function resetCalModal() {
+
+    console.log('erase');
+}
+
+var refreshDriveSpace = document.querySelector('#refresh-drive-space');
+if (refreshDriveSpace) {
+    refreshDriveSpace.onclick = function (ev) {
+
+        var target = ev.currentTarget,
+            input = target.parentElement.querySelector('input[type="number"]');
+        console.log(input.value);
+    }
+}
+
+var modifyDriver = document.querySelectorAll('.modify_driver');
+for (var i = 0; i < modifyDriver.length; i++) {
+    modifyDriver[i].onclick = function (ev) {
+
+        var target = ev.currentTarget;
+        console.log(target);
+    }
+}
+
+var directories = document.querySelectorAll('.directories');
+for (var i = 0; i < directories.length; i++) {
+    directories[i].onclick = function (ev) {
+
+        var target = ev.currentTarget,
+            path = target.dataset.dir;
+        console.log(path);
+    }
+}
+
+/*var adminPathsInputs = document.querySelectorAll('.admin_paths_inputs');
+for (var i = 0; i < adminPathsInputs.length; i++) {
+    adminPathsInputs[i].querySelector('input[type="checkbox"]').onclick = function (ev) {
+
+        var target = ev.currentTarget;
+        console.log(target);
+    }
+}*/
+
+function space_range() {
+
+    var disk_infos = document.querySelector('#disk_infos');
+
+    if (disk_infos) {
+
+        var used = disk_infos.dataset.used;
+
+        document.querySelector('#disc_cursor').style.width = (used <= 100) ? used + '%' : '100%';
+
+        if (used < 81) {
+
+            document.querySelector('#disc_cursor').style.backgroundColor = 'var(--colorGreen)';
+
+        } else if (used > 80 && used < 96) {
+
+            document.querySelector('#disc_cursor').style.backgroundColor = 'var(--colorGold)';
+
+        } else {
+
+            document.querySelector('#disc_cursor').style.backgroundColor = 'var(--colorRed)';
+        }
+    }
+}
+
+space_range();

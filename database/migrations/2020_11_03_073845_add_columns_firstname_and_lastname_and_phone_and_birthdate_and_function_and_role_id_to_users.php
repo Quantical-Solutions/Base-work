@@ -16,13 +16,13 @@ class AddColumnsFirstnameAndLastnameAndPhoneAndBirthdateAndFunctionAndRoleIdToUs
         Schema::table('users', function (Blueprint $table) {
             $table->string('lastname')->after('id');
             $table->string('firstname')->after('id');
-            $table->bigInteger('role_id')->default(1)->after('id');
+            $table->bigInteger('role_id')->nullable()->after('id');
             $table->string('phone')->after('password');
             $table->string('function')->after('password')->nullable();
             $table->string('department')->after('password')->nullable();
             $table->string('email_code')->after('password')->nullable();
             $table->string('phone_code')->after('password')->nullable();
-            $table->bigInteger('entity_id')->unsigned()->after('id');
+            $table->bigInteger('entity_id')->unsigned()->nullable()->after('id');
             $table->foreign('entity_id')->references('id')->on('entities');
             $table->string('avatar')->after('id');
         });

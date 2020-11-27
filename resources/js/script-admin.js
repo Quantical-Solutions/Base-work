@@ -22,3 +22,20 @@ export function getDeleteResponse(infos) {
     }, 3250);
 
 }
+
+export function getVisioResponse(data) {
+
+    if (data.visio) {
+
+        var visioLink = data.visio,
+            addConf = document.querySelector('#add-conf'),
+            setConf = document.querySelector('#go-to-conf'),
+            div = document.querySelector('#room-url');
+
+        setConf.querySelector('input').value = visioLink;
+        setConf.querySelector('a').href = visioLink;
+        addConf.style.display = 'none';
+        setConf.style.display = 'flex';
+        div.style.display = 'flex';
+    }
+}

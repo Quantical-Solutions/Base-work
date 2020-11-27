@@ -17,7 +17,7 @@ class CreateSettingsTable extends Migration
             $table->id();
             $table->bigInteger('backups_limit')->default(10);
             $table->boolean('multi_lang')->default(0);
-            $table->decimal('limit_drive', 50, 2);
+            $table->bigInteger('limit_drive')->default(20);
             $table->longText('drive_faqs')->nullable();
             $table->longText('drive_privacy')->nullable();
             $table->bigInteger('full_drive')->default(10);

@@ -127,6 +127,16 @@ if (!function_exists('compileJsFiles')) {
         <script  type="text/javascript" src="/js/material/plugins/chartist.min.js"></script>
         <script  type="text/javascript" src="/js/material/plugins/bootstrap-notify.js"></script>';
 
+        if (Request::route()->getName() === 'calendriers') {
+
+            $scripts .= '<script src="/js/fullcalendar/packages/core/main.js"></script>
+            <script src="/js/fullcalendar/packages/daygrid/main.js"></script>
+            <script src="/js/fullcalendar/packages/interaction/main.js"></script>
+            <script src="/js/fullcalendar/packages/list/main.js"></script>
+            <script src="/js/fullcalendar/packages/timegrid/main.js"></script>
+            <script src="/js/fullcalendar/packages/core/locales-all.js"></script>';
+        }
+
         return $scripts;
     }
 }

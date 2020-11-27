@@ -17,8 +17,6 @@ class CreateRolesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('app_name');
-            $table->bigInteger('entity_id')->unsigned();
-            $table->foreign('entity_id')->references('id')->on('entities');
             $table->timestamps();
         });
     }

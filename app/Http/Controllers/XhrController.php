@@ -5,7 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+//Models
 use App\Models\Article;
+use App\Models\Api_token as Api;
+use App\Models\Category;
+use App\Models\Drive_relation as DriveRelation;
+use App\Models\Email;
+use App\Models\EmailModel;
+use App\Models\Entity;
+use App\Models\Event;
+use App\Models\Ip;
+use App\Models\Learning;
+use App\Models\Newsletter;
+use App\Models\Newsletter_email as NewsletterEmail;
+use App\Models\Page;
+use App\Models\Product;
+use App\Models\Role;
+use App\Models\Setting;
+use App\Models\User;
 
 class XhrController extends Controller
 {
@@ -176,18 +193,89 @@ class XhrController extends Controller
         $id = $request->input('id');
         $url = $request->input('url');
         $title = '';
-        switch ($url) {
 
-            case 'articles':
-                $article = Article::select('title_fr')->where('id', $id)->first();
-                $title .= $article->title_fr;
-                Article::where('id', $id)->delete();
-                break;
+        if ($url == 'articles' || $url == 'presse') {
 
-            default:
+            $results = Article::select('title_fr')->where('id', $id)->first();
+            $title .= $results->title_fr;
+            Article::where('id', $id)->delete();
 
+        } else if ($url == 'pages') {
+
+            $results = Page::select('title_fr')->where('id', $id)->first();
+            $title .= $results->title_fr;
+            Page::where('id', $id)->delete();
+
+        } else if ($url == 'categories') {
+
+            $results = Category::select('name')->where('id', $id)->first();
+            $title .= $results->name;
+            Article::where('category_id', $id)->update(['category_id', null]);
+            Category::where('id', $id)->delete();
+
+        } else if ($url == 'newsletters') {
+
+            $results = Newsletter::select('title_fr')->where('id', $id)->first();
+            $title .= $results->title_fr;
+            Newsletter::where('id', $id)->delete();
+
+        } else if ($url == 'utilisateurs/gestion' || $url == 'utilisateurs/apprenants') {
+
+            $results = User::select('name')->where('id', $id)->first();
+            $title .= $results->name;
+            User::where('id', $id)->delete();
+            DriveRelation::where('user_id', $id)->delete();
+
+        } else if ($url == 'events') {
+
+            $results = Event::select('title_fr')->where('id', $id)->first();
+            $title .= $results->title_fr;
+            Event::where('id', $id)->delete();
+
+        } else if ($url == 'societes/clients' || $url == 'societes/fournisseurs') {
+
+            $results = Entity::select('name')->where('id', $id)->first();
+            $title .= $results->name;
+            Entity::where('id', $id)->delete();
+            Api::where('entity_id', $id)->delete();
+            Email::where('entity_id', $id)->delete();
+            Newsletter::where('entity_id', $id)->delete();
+            NewsletterEmail::where('entity_id', $id)->delete();
+            Article::where('entity_id', $id)->update(['entity_id', null]);
+
+        } else if ($url == 'produits') {
+
+            $results = Product::select('title_fr')->where('id', $id)->first();
+            $title .= $results->title_fr;
+            Product::where('id', $id)->delete();
+            Api::where('product_id', $id)->delete();
+
+        } else if ($url == 'formations') {
+
+            $results = Learning::select('title_fr')->where('id', $id)->first();
+            $title .= $results->title_fr;
+            Learning::where('id', $id)->delete();
+
+        } else if ($url == 'apis') {
+
+            $results = Api::select('api_tokens.token', 'products.title_fr as product')->join('products', 'api_tokens.id', '=', 'products.id')->where('api_tokens.id', $id)->first();
+            $title .= 'Le token ' . $results->token . ' du produit ' . $results->product;
+            Api::where('id', $id)->delete();
+
+        } else if ($url == 'ips') {
+
+            $results = Ip::select('ip_address')->where('id', $id)->first();
+            $title .= 'L\' adresse IP' . $results->ip_address;
+            Ip::where('id', $id)->delete();
 
         }
+
         return ['id' => $id, 'url' => $url, 'title' => $title];
+    }
+
+    public function get_visio($request)
+    {
+        $visio = config('app.visio');
+        return ['visio' => $visio . '/jsg6tGR54d4Thh'];
     }
 }

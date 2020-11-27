@@ -336,8 +336,13 @@ if (!function_exists('rowsBuilder')) {
             }
 
             $html .= '<td><div class="scrudActions">';
-            $html .= '<a class="scrudReadLink scrudActionLinks" title="Lire" href="' . $_SERVER['REQUEST_URI'] . '/read/' . $id . '">' . import_svg('read', 'actionIcons') . '</a>';
-            $html .= '<a class="scrudEditLink scrudActionLinks" title="Modifier" href="' . $_SERVER['REQUEST_URI'] . '/edit/' . $id . '">' . import_svg('edit', 'actionIcons') . '</a>';
+            
+            if ($_SERVER['REQUEST_URI'] != '/ips') {
+
+                $html .= '<a class="scrudReadLink scrudActionLinks" title="Lire" href="' . $_SERVER['REQUEST_URI'] . '/read/' . $id . '">' . import_svg('read', 'actionIcons') . '</a>';
+                $html .= '<a class="scrudEditLink scrudActionLinks" title="Modifier" href="' . $_SERVER['REQUEST_URI'] . '/edit/' . $id . '">' . import_svg('edit', 'actionIcons') . '</a>';
+            }
+
             $html .= '<span class="scrudDeleteLink scrudActionLinks" title="Effacer" data-id="' . $id . '" data-url="' . $_SERVER['REQUEST_URI'] . '">' . import_svg('delete', 'actionIcons') . '</span>';
             $html .= '</div></td>';
             $html .= '</tr>';

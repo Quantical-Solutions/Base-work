@@ -34,7 +34,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Identifiant</label>
-                                <input type="email" autofocus name="email" autocomplete="off" class="form-control" required>
+                                <input type="email" autofocus name="email" autocomplete="off" value="{{ old('email') }}" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                             @enderror
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Mot de passe</label>
-                                <input type="password" name="password" autocomplete="off" class="form-control" required>
+                                <input type="password" name="password" autocomplete="off" value="{{ old('password') }}" class="form-control" required>
                             </div>
                             @if (Route::has('password.request'))
                                 <a class="row" href="{{ route('password.request') }}">

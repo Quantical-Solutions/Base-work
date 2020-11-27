@@ -110,6 +110,8 @@ Route::group(array('domain' => config('app.admin')), function(){
     //Mooc
     Route::middleware(['auth:sanctum', 'verified'])->get('/mooc', 'App\Http\Controllers\Admin\MoocController@index')
         ->name('mooc');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/mooc', 'App\Http\Controllers\Admin\MoocController@getPost')
+        ->name('mooc-post');
 
     //Calendars
     Route::middleware(['auth:sanctum', 'verified'])->get('/calendriers', 'App\Http\Controllers\Admin\CalendarsController@index')
@@ -118,6 +120,8 @@ Route::group(array('domain' => config('app.admin')), function(){
     //Drives
     Route::middleware(['auth:sanctum', 'verified'])->get('/drives', 'App\Http\Controllers\Admin\DriveController@index')
         ->name('drives');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/drives', 'App\Http\Controllers\Admin\DriveController@postForm')
+        ->name('drives-post');
 
     //Drives
     Route::middleware(['auth:sanctum', 'verified'])->get('/visio', 'App\Http\Controllers\Admin\VisioController@index')
